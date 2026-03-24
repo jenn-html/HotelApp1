@@ -9,13 +9,13 @@ namespace HotelApp1.Utilities
         public static void ShowMenu()
         {
             string[] options = new[] {
-                "Add a customer",
-                "Update a customer",
-                "Delete a customer",
-                "Show all customers",
-                "Show customer details",
+                "Add a new room",
+                "Update a room",
+                "Delete a room",
+                "Show all rooms",
+                "Show room details",
                 "Show all bookings",
-                "Add a booking",
+                "Add a new booking",
                 "Update a booking",
                 "Delete a booking",
                 "Exit"
@@ -75,23 +75,23 @@ namespace HotelApp1.Utilities
             switch (selected)
             {
                 case 0:
-                    Console.WriteLine("Adding a customer...");
+                    Console.WriteLine("Adding a new room...");
                     // TODO: call add customer flow
                     break;
                 case 1:
-                    Console.WriteLine("Updating a customer...");
+                    Console.WriteLine("Updating a room...");
                     // TODO: call update customer flow
                     break;
                 case 2:
-                    Console.WriteLine("Deleting a customer...");
+                    Console.WriteLine("Deleting a room...");
                     // TODO: call delete customer flow
                     break;
                 case 3:
-                    Console.WriteLine("Showing all customers...");
+                    Console.WriteLine("Showing all rooms...");
                     // TODO: show customers
                     break;
                 case 4:
-                    Console.WriteLine("Showing customer details...");
+                    Console.WriteLine("Showing room details...");
                     // TODO: show details
                     break;
                 case 5:
@@ -99,7 +99,7 @@ namespace HotelApp1.Utilities
                     // TODO: show bookings
                     break;
                 case 6:
-                    Console.WriteLine("Adding a booking...");
+                    Console.WriteLine("Adding a new booking...");
                     // TODO: add booking
                     break;
                 case 7:
