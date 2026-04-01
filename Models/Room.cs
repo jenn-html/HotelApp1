@@ -5,7 +5,7 @@ using System.Text;
 
 namespace HotelApp1.Models
 {
-    internal class Room
+    public class Room
     {
         [Key]
         [Required]
@@ -28,7 +28,7 @@ namespace HotelApp1.Models
         public int MinMaxGuestsPerRoom { get; set; }
 
         [Required]
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
         
     }
 }

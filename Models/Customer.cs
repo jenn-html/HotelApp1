@@ -1,50 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace HotelApp1.Models
 {
-    internal class Customer
+    public class Customer
     {
         [Required]
         [Key]
         public int Id { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [MaxLength(50)]
         public string FirstName { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [MaxLength(50)]
         public string LastName { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [MaxLength(100)]
         public string Address { get; set; }
 
         [Required]
-        [Range(0, 10)]
+        [MaxLength (10)]
         public string PostalCode { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [MaxLength(50)]
         public string City { get; set; }
 
         [Required]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(50)]
+        [MaxLength(50)]
         [Phone]
         public string Phone { get; set; }
 
         [Required]
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
 
-        public Booking BookingId { get; set; }
-        public Invoice InvoiceId { get; set; }
+
+        public List <Booking> Bookings { get; set; } = new List<Booking>();
+        
+        public List <Invoice> Invoices { get; set; } = new List<Invoice>();
 
     }
 }

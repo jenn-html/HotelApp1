@@ -29,7 +29,7 @@ namespace HotelApp1.Utilities
                 // Use Spectre.Console SelectionPrompt for keyboard navigation + Enter selection
                 var choice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
-                        .Title("[green]---HOTEL BOOKING SYSTEM---[/]")
+                        .Title("[DeepSkyBlue2]---HOTEL BOOKING SYSTEM---[/]")
                         .PageSize(10)
                         .AddChoices(options)
                         .WrapAround()

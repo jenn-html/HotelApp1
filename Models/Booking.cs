@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace HotelApp1.Models
 {
-    internal class Booking
+    public class Booking
     {
         [Required]
         [Key]
@@ -24,18 +25,22 @@ namespace HotelApp1.Models
         public int NumberOfGuests {  get; set; }
 
         [Required]
-        public Customer CustomerId { get; set; }
+
+        public int CustomerId { get; set; }
 
         [Required]
-        public Room RoomId { get; set; }
+
+        public int RoomId { get; set; }
 
         [Required]
-        public Invoice InvoiceId { get; set; }
+
+        public int InvoiceId { get; set; }
 
         [Required]
         public bool IsPayed { get; set; }
         
         [Required]
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
+       
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HotelApp1.Models
 {
-    internal class Invoice
+    public class Invoice
     {
         public int Id { get; set; }
         public DateTime date { get; set; }
