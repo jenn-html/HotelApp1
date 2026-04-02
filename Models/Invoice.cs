@@ -10,5 +10,6 @@ namespace HotelApp1.Models
         public DateTime date { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
+        public bool IsActive { get; set; }
     }
 }

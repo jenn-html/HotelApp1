@@ -24,7 +24,6 @@ namespace HotelApp1.Models
         [Required]
         public int NumberOfGuests {  get; set; }
 
-       
         public required Guest Guest { get; set; }
 
         public required Room Room { get; set; }
@@ -36,6 +35,10 @@ namespace HotelApp1.Models
         
         [Required]
         public bool IsActive { get; set; } = true;
-       
+
+        public override string ToString()
+        {
+                return $"Booking ID: {Id}, Customer ID: {Guest.Id}, Room: {Room.RoomNumber}, Check-In: {CheckIn:yyyy-MM-dd}, Check-Out: {CheckOut:yyyy-MM-dd}";
+        }
     }
 }

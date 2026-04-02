@@ -138,6 +138,9 @@ namespace HotelApp1.Migrations
                     b.Property<int?>("GuestId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 

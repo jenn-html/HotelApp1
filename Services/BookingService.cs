@@ -1,19 +1,26 @@
-﻿using System;
+﻿using HotelApp1.Models;
+using HotelApp1.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace HotelApp1.Services
 {
-    internal class BookingService : ICrud
+    public class BookingService 
     {
-        public void Create()
+        private readonly IBookingRepository _bookingRepository;
+        public BookingService(IBookingRepository bookingRepository)
         {
-            throw new NotImplementedException();
+            _bookingRepository = bookingRepository;
+        }
+        public List<Booking> GetAllBookings()
+        {
+            return _bookingRepository.GetAllBookings();
         }
 
-        public void Read()
+        public Booking? GetById(int id)
         {
-            throw new NotImplementedException();
+            return _bookingRepository.GetById(id);
         }
 
         public void Delete()
