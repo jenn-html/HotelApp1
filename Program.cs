@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 namespace HotelApp1
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -18,7 +18,8 @@ namespace HotelApp1
             {
                 dbContext.Database.Migrate();
             }
-            Application.Run();
+            var app = new Application();
+            app.Run();
         }
     }
 }

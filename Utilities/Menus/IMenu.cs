@@ -1,0 +1,11 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace HotelApp1.Utilities.Menus
+{
+    public interface IMenu
+    {
+        void ShowMenu();
+    }
+}

@@ -11,7 +11,7 @@ namespace HotelApp1.Data
     {
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Guest> Guests { get; set; }
         public DbSet<Room> Rooms { get; set; }
 
 

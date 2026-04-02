@@ -24,17 +24,12 @@ namespace HotelApp1.Models
         [Required]
         public int NumberOfGuests {  get; set; }
 
-        [Required]
+       
+        public required Guest Guest { get; set; }
 
-        public int CustomerId { get; set; }
+        public required Room Room { get; set; }
 
-        [Required]
-
-        public int RoomId { get; set; }
-
-        [Required]
-
-        public int InvoiceId { get; set; }
+        public required Invoice Invoice { get; set; }
 
         [Required]
         public bool IsPayed { get; set; }

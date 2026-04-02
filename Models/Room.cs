@@ -21,11 +21,17 @@ namespace HotelApp1.Models
         public int RoomNumber { get; set; }
 
         [Required]
-        public string Description { get; set; }
+        public string Facilities { get; set; }
 
         [Required]
-        [Range(1,4)]
+        [Range(1,6)]
         public int MinMaxGuestsPerRoom { get; set; }
+
+        [Range(0, 2)]
+        public int ExtraBeds { get; set; } = 0;
+
+        [Range (0,2)]
+        public int Crib { get; set; } = 0;
 
         [Required]
         public bool IsActive { get; set; } = true;

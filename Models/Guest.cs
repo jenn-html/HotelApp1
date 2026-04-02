@@ -6,44 +6,44 @@ using System.Text;
 
 namespace HotelApp1.Models
 {
-    public class Customer
+    public class Guest
     {
         [Required]
         [Key]
         public int Id { get; set; }
 
-        [Required]
         [MaxLength(50)]
-        public string FirstName { get; set; }
+        public required string FirstName { get; set; }
 
-        [Required]
+
         [MaxLength(50)]
-        public string LastName { get; set; }
+        public required string LastName { get; set; }
 
-        [Required]
+
         [MaxLength(100)]
-        public string Address { get; set; }
+        public required string Street { get; set; }
 
-        [Required]
+
         [MaxLength (10)]
-        public string PostalCode { get; set; }
+        public required string PostalCode { get; set; }
 
-        [Required]
+
         [MaxLength(50)]
-        public string City { get; set; }
+        public required string City { get; set; }
 
-        [Required]
+        [MaxLength(50)]
+        public required string Country { get; set; }
+
         [EmailAddress]
-        public string Email { get; set; }
+        public required string Email { get; set; }
 
-        [MaxLength(50)]
         [Phone]
         public string Phone { get; set; }
 
         [Required]
         public bool IsActive { get; set; } = true;
 
-
+        
         public List <Booking> Bookings { get; set; } = new List<Booking>();
         
         public List <Invoice> Invoices { get; set; } = new List<Invoice>();
