@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HotelApp1.Services
 {
-    internal class CustomerService : ICrud
+    public class CustomerService : ICrud
     {
         public void Create()
         {

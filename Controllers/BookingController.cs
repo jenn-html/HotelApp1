@@ -20,7 +20,7 @@ namespace HotelApp1.Controllers
             foreach (var booking in bookings)
             {
                 Console.WriteLine(booking);
-                Console.WriteLine("---------------------------");
+                Console.WriteLine("---------------------------66");
             }
         }
     }

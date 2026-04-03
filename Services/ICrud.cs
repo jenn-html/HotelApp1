@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HotelApp1.Services
 {
-    internal interface ICrud
+    public interface ICrud
     {
         void Create();
         void Read();

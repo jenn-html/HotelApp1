@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HotelApp1.Repositories
 {
-    internal class InvoiceRepository
+    public class InvoiceRepository
     {
     }
 }

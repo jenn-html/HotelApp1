@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HotelApp1.Controllers
 {
-    internal class RoomController
+    public class RoomController
     {
     }
 }
