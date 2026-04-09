@@ -8,8 +8,8 @@ namespace HotelApp1.Services
 {
     public class BookingService 
     {
-        private readonly IBookingRepository _bookingRepository;
-        public BookingService(IBookingRepository bookingRepository)
+        private readonly BookingRepository _bookingRepository;
+        public BookingService(BookingRepository bookingRepository)
         {
             _bookingRepository = bookingRepository;
         }
@@ -31,6 +31,11 @@ namespace HotelApp1.Services
         public void Update()
         {
             throw new NotImplementedException();
+        }
+        public void Add(Booking booking)
+        {
+
+            _bookingRepository.Add(booking);
         }
     }
 }

@@ -14,12 +14,12 @@ namespace HotelApp1.Models
         public int Id { get; set; }
 
         [Required]
-        [Timestamp]
-        public DateTime CheckIn { get; set; }
+       
+        public DateOnly CheckIn { get; set; }
 
         [Required]
-        [Timestamp]
-        public DateTime CheckOut {  get; set; }
+        
+        public DateOnly CheckOut {  get; set; }
 
         [Required]
         public int NumberOfGuests {  get; set; }
@@ -28,17 +28,14 @@ namespace HotelApp1.Models
 
         public required Room Room { get; set; }
 
-        public required Invoice Invoice { get; set; }
-
-        [Required]
-        public bool IsPayed { get; set; }
+        public  DateTime TimeOfBooking { get; set; } = DateTime.Now;
         
         [Required]
         public bool IsActive { get; set; } = true;
 
         public override string ToString()
         {
-                return $"Booking ID: {Id}, Customer ID: {Guest.Id}, Room: {Room.RoomNumber}, Check-In: {CheckIn:yyyy-MM-dd}, Check-Out: {CheckOut:yyyy-MM-dd}";
+                return $"Booking ID: {Id}, Customer ID: {Guest}, Room: {Room}, Check-In: {CheckIn:yyyy-MM-dd}, Check-Out: {CheckOut:yyyy-MM-dd}";
         }
     }
 }

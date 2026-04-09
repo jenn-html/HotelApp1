@@ -11,28 +11,36 @@ namespace HotelApp1.Repositories
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public BookingRepository(ApplicationDbContext context)
+        public BookingRepository(ApplicationDbContext dbContext)
         {
-            _dbContext = context;
+            _dbContext = dbContext;
         }
         public void Add(Booking booking)
         {
             _dbContext.Bookings.Add(booking);
+            _dbContext.SaveChanges();
         }
 
         public void Delete(int id)
         {
             var existingBooking = GetById(id);
-            if (existingBooking != null)
+            if (!(existingBooking == null && existingBooking.CheckIn <= DateOnly.FromDateTime(DateTime.Today)))
             {
                 existingBooking.IsActive = false;
-                existingBooking.Invoice.IsActive = false;
+                _dbContext.SaveChanges();
+            }
+            else if (existingBooking.CheckIn <= DateOnly.FromDateTime(DateTime.Today)) 
+            {
+                Console.WriteLine("You can only delete a booking that haven't already started.");
+            }
+            else if (existingBooking == null){
+                Console.WriteLine($"Can't find booking with id :{id}");
             }
         }
 
         public List<Booking> GetAllBookings()
         {
-            return _dbContext.Bookings.Where(b => b.IsActive).ToList();
+            return _dbContext.Bookings.Where(b => b.IsActive == true).ToList();
         }
 
         public Booking? GetById(int id)
@@ -42,7 +50,8 @@ namespace HotelApp1.Repositories
 
         public void Update(Booking booking)
         {
-            throw new NotImplementedException();
+            _dbContext.Bookings.Update(booking);
+            _dbContext.SaveChanges();
         }
     }
 }

@@ -38,15 +38,13 @@ namespace HotelApp1.Models
         public required string Email { get; set; }
 
         [Phone]
-        public string Phone { get; set; }
+        public string ?Phone { get; set; }
 
         [Required]
         public bool IsActive { get; set; } = true;
 
         
-        public List <Booking> Bookings { get; set; } = new List<Booking>();
-        
-        public List <Invoice> Invoices { get; set; } = new List<Invoice>();
+        public List <Booking> Bookings { get; set; } = new List<Booking>();   
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using HotelApp1.Services;
+﻿using HotelApp1.Models;
+using HotelApp1.Services;
 using Spectre.Console;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,8 @@ namespace HotelApp1.Controllers
     public class BookingController
     {
         private readonly BookingService _bookingService;
-        public BookingController(BookingService bookingService) 
+        private readonly RoomService _roomService;
+        public BookingController(BookingService bookingService)
         {
             _bookingService = bookingService;
         }
@@ -26,7 +28,23 @@ namespace HotelApp1.Controllers
         }
         public void AddBooking()//Lägg till bokning
         {
-            Console.WriteLine("Add booking..");
+            //Console.WriteLine("Enter check in date");
+            //var checkInDate = Convert.ToDateTime(Console.ReadLine());
+            //Console.WriteLine("Enter check out date");
+            //var checkOutDate = Convert.ToDateTime(Console.ReadLine());
+            //Console.WriteLine("Select roomnumber");
+            //var selectedRoom = _roomService.
+            //var booking = new Booking
+            //{
+            //    CheckIn = checkInDate,
+            //    CheckOut = checkOutDate,
+            //    Room = ,
+            //    NumberOfGuests = numberOfGuests,
+            //    Guest = guest
+
+
+            //};
+            //_bookingService.Add(booking);
         }
         public void UpdateBooking()
         {
@@ -41,16 +59,21 @@ namespace HotelApp1.Controllers
                     return;
                 }
                 var id = Convert.ToInt32(inputId);
-            var existingBooking = _bookingService.GetById(id);
+                var existingBooking = _bookingService.GetById(id);
                 if (existingBooking == null)
                 {
                     Console.WriteLine("Booking not found");
                     return;
                 }
+                else
+                {
+                    Console.WriteLine();
+                }
+                // Updatera bokning
 
             }
 
-            catch 
+            catch
             {
                 AnsiConsole.WriteLine("ID was not in the right format");
                 Console.WriteLine("Press enter and try again");
@@ -58,7 +81,9 @@ namespace HotelApp1.Controllers
             }
 
         }
-        public void RemoveBooking() {
+        public void RemoveBooking()
+        {
             { }
+        }
     }
 }
