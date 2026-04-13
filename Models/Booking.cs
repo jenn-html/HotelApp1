@@ -15,11 +15,11 @@ namespace HotelApp1.Models
 
         [Required]
        
-        public DateOnly CheckIn { get; set; }
+        public DateTime CheckIn { get; set; }
 
         [Required]
         
-        public DateOnly CheckOut {  get; set; }
+        public DateTime CheckOut {  get; set; }
 
         [Required]
         public int NumberOfGuests {  get; set; }
@@ -33,9 +33,9 @@ namespace HotelApp1.Models
         [Required]
         public bool IsActive { get; set; } = true;
 
-        public override string ToString()
-        {
-                return $"Booking ID: {Id}, Customer ID: {Guest}, Room: {Room}, Check-In: {CheckIn:yyyy-MM-dd}, Check-Out: {CheckOut:yyyy-MM-dd}";
-        }
+        //public override string ToString()
+        //{
+        //        return $"Booking ID: {Id}, Customer ID: {Guest}, Room: {Room}, Check-In: {CheckIn:yyyy-MM-dd}, Check-Out: {CheckOut:yyyy-MM-dd}";
+        //}
     }
 }

@@ -12,15 +12,15 @@ namespace HotelApp1.Data
         {
             var roomType1 = new RoomType { Type = "Single room" };
             var roomType2 = new RoomType { Type = "Double room" };
-            var room1 = new Room { RoomNumber = 201, RoomSize = 10, RoomType = roomType1, ExtraBeds = 0, MinMaxGuestsPerRoom = 1 };
-            var room2 = new Room { RoomNumber = 202, RoomSize = 10, RoomType = roomType1, ExtraBeds = 0, MinMaxGuestsPerRoom = 1 };
-            var room3 = new Room { RoomNumber = 203, RoomSize = 20, RoomType = roomType2, ExtraBeds = 1, MinMaxGuestsPerRoom = 3 };
-            var room4 = new Room { RoomNumber = 204, RoomSize = 22, RoomType = roomType2, ExtraBeds = 1, MinMaxGuestsPerRoom = 3 };
-            var room5 = new Room { RoomNumber = 205, RoomSize = 35, RoomType = roomType2, ExtraBeds = 2, MinMaxGuestsPerRoom = 4 };
-            var room6 = new Room { RoomNumber = 206, RoomSize = 36.5, RoomType = roomType2, ExtraBeds = 2, MinMaxGuestsPerRoom=4 };
-            var room7 = new Room { RoomNumber = 207, RoomSize = 40, RoomType = roomType2, ExtraBeds = 2, MinMaxGuestsPerRoom = 4 };
-            var room8 = new Room { RoomNumber = 208, RoomSize = 12.5, RoomType = roomType1, ExtraBeds = 0, MinMaxGuestsPerRoom = 1 };
-            var room9 = new Room { RoomNumber = 209, RoomSize = 17, RoomType = roomType2, ExtraBeds = 0, MinMaxGuestsPerRoom = 2 };
+            var room1 = new Room { RoomNumber = 201, RoomSize = 10, RoomType = roomType1, ExtraBedsAvailable = 0, MaxGuestsPerRoomWithoutExtrabeds = 1 };
+            var room2 = new Room { RoomNumber = 202, RoomSize = 10, RoomType = roomType1, ExtraBedsAvailable = 0, MaxGuestsPerRoomWithoutExtrabeds = 1 };
+            var room3 = new Room { RoomNumber = 203, RoomSize = 20, RoomType = roomType2, ExtraBedsAvailable = 1, MaxGuestsPerRoomWithoutExtrabeds = 2 };
+            var room4 = new Room { RoomNumber = 204, RoomSize = 22, RoomType = roomType2, ExtraBedsAvailable = 1, MaxGuestsPerRoomWithoutExtrabeds = 2 };
+            var room5 = new Room { RoomNumber = 205, RoomSize = 35, RoomType = roomType2, ExtraBedsAvailable = 2, MaxGuestsPerRoomWithoutExtrabeds = 2 };
+            var room6 = new Room { RoomNumber = 206, RoomSize = 36.5, RoomType = roomType2, ExtraBedsAvailable = 2, MaxGuestsPerRoomWithoutExtrabeds=2 };
+            var room7 = new Room { RoomNumber = 207, RoomSize = 40, RoomType = roomType2, ExtraBedsAvailable = 2, MaxGuestsPerRoomWithoutExtrabeds = 2 };
+            var room8 = new Room { RoomNumber = 208, RoomSize = 12.5, RoomType = roomType1, ExtraBedsAvailable = 0, MaxGuestsPerRoomWithoutExtrabeds = 1 };
+            var room9 = new Room { RoomNumber = 209, RoomSize = 17, RoomType = roomType2, ExtraBedsAvailable = 0, MaxGuestsPerRoomWithoutExtrabeds = 2 };
             var guest1 = new Guest { FirstName = "Alfons", LastName = "Åberg", Email = "jag_ska_bara@nu-snart.se", Street = "Höghuset vid Parken v3", PostalCode = "12345", City = "Göteborg", Country = "Sweden" , Phone = "070-0000000"};
             var guest2 = new Guest { FirstName = "Buzz", LastName = "Lightyear", Email = "to_infinity_and_beyond@starcommand.gov", Street = "Gamma-kvadranten, Sektor 4", PostalCode = "01-0000", City = "Stjärnbas 1", Country = "Rymden" };
             var guest3 = new Guest { FirstName = "Captain", LastName = "Hook", Email = "tick_tock@neverland.sea", Street = "Jolly Roger", PostalCode = "00-01-02", City = "Krokodilbukten", Country = "Neverland" };
@@ -48,12 +48,12 @@ namespace HotelApp1.Data
             dbContext.SaveChanges();
             dbContext.Bookings.AddRange(new List<Booking> 
             {
-               new Booking { Guest = guest1, Room = room3, NumberOfGuests = 2, CheckIn = DateOnly.FromDateTime(DateTime.Today.AddDays(-1)), CheckOut = DateOnly.FromDateTime(DateTime.Today.AddDays(2))},
-              new Booking { Guest = guest8, Room = room7, NumberOfGuests = 3, CheckIn = DateOnly.FromDateTime(DateTime.Today.AddDays(2)), CheckOut = DateOnly.FromDateTime(DateTime.Today.AddDays(3))},
-              new Booking { Guest = guest9, Room = room3, NumberOfGuests = 2, CheckIn = DateOnly.FromDateTime(DateTime.Today.AddDays(3)), CheckOut = DateOnly.FromDateTime(DateTime.Today.AddDays(4))},
-              new Booking { Guest = guest6, Room = room5, NumberOfGuests = 4, CheckIn = DateOnly.FromDateTime(DateTime.Today.AddDays(7)), CheckOut = DateOnly.FromDateTime(DateTime.Today.AddDays(15))},
-              new Booking { Guest = guest7, Room = room6, NumberOfGuests = 4, CheckIn = DateOnly.FromDateTime(DateTime.Today.AddDays(13)), CheckOut = DateOnly.FromDateTime(DateTime.Today.AddDays(26))},
-              new Booking { Guest = guest4, Room = room2, NumberOfGuests = 1, CheckIn = DateOnly.FromDateTime(DateTime.Today.AddDays(100)), CheckOut = DateOnly.FromDateTime(DateTime.Today.AddDays(109))}
+               new Booking { Guest = guest1, Room = room3, NumberOfGuests = 2, CheckIn = DateTime.Today.AddDays(-1), CheckOut = DateTime.Today.AddDays(2)},
+              new Booking { Guest = guest8, Room = room7, NumberOfGuests = 3, CheckIn = DateTime.Today.AddDays(2), CheckOut = DateTime.Today.AddDays(3)},
+              new Booking { Guest = guest9, Room = room3, NumberOfGuests = 2, CheckIn = DateTime.Today.AddDays(3), CheckOut = DateTime.Today.AddDays(4)},
+              new Booking { Guest = guest6, Room = room5, NumberOfGuests = 4, CheckIn = DateTime.Today.AddDays(7), CheckOut = DateTime.Today.AddDays(15)},
+              new Booking { Guest = guest7, Room = room6, NumberOfGuests = 4, CheckIn = DateTime.Today.AddDays(13), CheckOut = DateTime.Today.AddDays(26)},
+              new Booking { Guest = guest4, Room = room2, NumberOfGuests = 1, CheckIn = DateTime.Today.AddDays(100), CheckOut = DateTime.Today.AddDays(109)}
             });
             dbContext.SaveChanges();
         }

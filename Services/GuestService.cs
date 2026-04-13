@@ -1,11 +1,12 @@
-﻿using HotelApp1.Repositories;
+﻿using HotelApp1.Models;
+using HotelApp1.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace HotelApp1.Services
 {
-    public class GuestService : ICrud
+    public class GuestService 
     {
         public readonly GuestRepository _guestRepository;
         public GuestService(GuestRepository guestRepository)
@@ -17,14 +18,18 @@ namespace HotelApp1.Services
             throw new NotImplementedException();
         }
 
-        public void Delete()
+        public void Delete(int id)
         {
-            throw new NotImplementedException();
+            _guestRepository.DeleteById(id);
         }
 
-        public void Read()
+        public List<Guest> GetAllGuests()
         {
-            throw new NotImplementedException();
+            return _guestRepository.GetAll();
+        }
+        public Guest GetById(int id)
+        {
+            return _guestRepository.GetById(id);
         }
 
         public void Update()

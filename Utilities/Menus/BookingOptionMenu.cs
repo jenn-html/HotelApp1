@@ -1,4 +1,6 @@
 ﻿using HotelApp1.Controllers;
+using HotelApp1.Data;
+using HotelApp1.UI;
 using Spectre.Console;
 using System;
 using System.Collections.Generic;
@@ -9,18 +11,23 @@ namespace HotelApp1.Utilities.Menus
     public class BookingOptionMenu : IMenu
     {
         private readonly BookingController _bookingController;
-        public BookingOptionMenu(BookingController bookingController)
+        private readonly GuestController _guestController;
+        private readonly ApplicationDbContext _dbContext;
+        public BookingOptionMenu(BookingController bookingController, ApplicationDbContext dbContext, GuestController guestController   )
         {
+            _dbContext = dbContext;
             _bookingController = bookingController;
+            _guestController = guestController;
         }
         public void ShowMenu()
         {
+            var bookingAvailableMenu = new BookingAvailabilityMenu(_dbContext, _bookingController);
             string[] options = new[] {
            
                 "Show all bookings",
                 "Add a new booking",
                 "Update a booking",
-                "Delete a booking",
+                "DeleteById a booking",
                 "Go back to Main"
             };
           
@@ -47,7 +54,8 @@ namespace HotelApp1.Utilities.Menus
                         _bookingController.ShowAllBookings();
                         break;
                     case 1:
-                        _bookingController.AddBooking();
+                        bookingAvailableMenu.ShowAvailability();
+                        //_bookingController.AddBooking(_dbContext);
                         break;
                     case 2:
                         _bookingController.UpdateBooking();

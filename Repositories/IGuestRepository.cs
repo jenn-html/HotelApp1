@@ -11,6 +11,6 @@ namespace HotelApp1.Repositories
         Guest GetById(int id);
         void Add(Guest guest);
         void Update(Guest guest);
-        void Delete(int id);
+        void DeleteById(int id);
     }
 }

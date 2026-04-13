@@ -24,13 +24,17 @@ namespace HotelApp1.Models
 
         [Required]
         [Range(1,4)]
-        public int MinMaxGuestsPerRoom { get; set; }
+        public int MaxGuestsPerRoomWithoutExtrabeds { get; set; }
 
         [Range(0, 2)]
-        public int ExtraBeds { get; set; } = 0;
+        public int ExtraBedsAvailable { get; set; } = 0;
 
         [Required]
-        public bool IsActive { get; set; } = true; 
+        public bool IsActive { get; set; } = true;
 
+        public override string ToString()
+        {
+            return $"Room number: {RoomNumber}, {RoomType.Type}";
+        }
     }
 }

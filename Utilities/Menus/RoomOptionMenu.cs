@@ -14,7 +14,7 @@ namespace HotelApp1.Utilities.Menus
                 "Show all rooms",
                 "Add a new room",
                 "Update a room",
-                "Delete a room",
+                "DeleteById a room",
                 "Go back to Main"
             };
 

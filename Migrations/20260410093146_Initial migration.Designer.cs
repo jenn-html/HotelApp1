@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelApp1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260409140410_initial migration")]
-    partial class initialmigration
+    [Migration("20260410093146_Initial migration")]
+    partial class Initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,11 +33,11 @@ namespace HotelApp1.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateOnly>("CheckIn")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("CheckIn")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateOnly>("CheckOut")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("CheckOut")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("GuestId")
                         .HasColumnType("int");
@@ -124,13 +124,13 @@ namespace HotelApp1.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ExtraBeds")
+                    b.Property<int>("ExtraBedsAvailable")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int>("MinMaxGuestsPerRoom")
+                    b.Property<int>("MaxGuestsPerRoomWithoutExtrabeds")
                         .HasColumnType("int");
 
                     b.Property<int>("RoomNumber")

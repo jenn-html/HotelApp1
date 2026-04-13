@@ -28,7 +28,7 @@ namespace HotelApp1.Repositories
             {
                 var hasBookings = _dbContext.Bookings.Where(b => b.IsActive == true)
                 .Where(b => b.Room.Id == existingRoom.Id)
-                .Where(b => b.CheckOut >= DateOnly.FromDateTime(DateTime.Now)).ToList();
+                .Where(b => b.CheckOut >= DateTime.Now).ToList();
 
                 if (!(hasBookings == null))
                 {

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HotelApp1.Migrations
 {
     /// <inheritdoc />
-    public partial class initialmigration : Migration
+    public partial class Initialmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -54,8 +54,8 @@ namespace HotelApp1.Migrations
                     RoomTypeId = table.Column<int>(type: "int", nullable: false),
                     RoomSize = table.Column<double>(type: "float", nullable: false),
                     RoomNumber = table.Column<int>(type: "int", nullable: false),
-                    MinMaxGuestsPerRoom = table.Column<int>(type: "int", nullable: false),
-                    ExtraBeds = table.Column<int>(type: "int", nullable: false),
+                    MaxGuestsPerRoomWithoutExtrabeds = table.Column<int>(type: "int", nullable: false),
+                    ExtraBedsAvailable = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -75,8 +75,8 @@ namespace HotelApp1.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CheckIn = table.Column<DateOnly>(type: "date", nullable: false),
-                    CheckOut = table.Column<DateOnly>(type: "date", nullable: false),
+                    CheckIn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CheckOut = table.Column<DateTime>(type: "datetime2", nullable: false),
                     NumberOfGuests = table.Column<int>(type: "int", nullable: false),
                     GuestId = table.Column<int>(type: "int", nullable: false),
                     RoomId = table.Column<int>(type: "int", nullable: false),

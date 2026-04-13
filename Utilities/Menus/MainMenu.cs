@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using HotelApp1.Controllers;
+using HotelApp1.Data;
 using Spectre.Console;
 
 namespace HotelApp1.Utilities.Menus
@@ -10,16 +11,19 @@ namespace HotelApp1.Utilities.Menus
     {
         private readonly BookingController _bookingController;
         private readonly GuestController _guestController;
-        public MainMenu(BookingController bookingController, GuestController guestController) 
+        private readonly ApplicationDbContext _context;
+        public MainMenu(BookingController bookingController, GuestController guestController, ApplicationDbContext context) 
         {
+            _context = context;
             _bookingController = bookingController;
             _guestController = guestController;
         }
 
         public void ShowMenu()
         {
-            var booking = new BookingOptionMenu(_bookingController);
-            var guest = new GuestOptionMenu();
+
+            var booking = new BookingOptionMenu(_bookingController, _context, _guestController);
+            var guest = new GuestOptionMenu(_guestController);
             var room = new RoomOptionMenu();
 
             string[] options = new[] {
@@ -32,6 +36,8 @@ namespace HotelApp1.Utilities.Menus
             while (true)
             {
                 Console.Clear();
+
+                Console.WriteLine(": \"\r\n _____                                                                                       _____ \r\n( ___ )                                                                                     ( ___ )\r\n |   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|   | \r\n |   |                                                                                       |   | \r\n |   |                                                                                       |   | \r\n |   | ██╗  ██╗ ██████╗ ████████╗███████╗██╗              ██╗███████╗███╗   ██╗███╗   ██╗██╗ |   | \r\n |   | ██║  ██║██╔═══██╗╚══██╔══╝██╔════╝██║              ██║██╔════╝████╗  ██║████╗  ██║██║ |   | \r\n |   | ███████║██║   ██║   ██║   █████╗  ██║              ██║█████╗  ██╔██╗ ██║██╔██╗ ██║██║ |   | \r\n |   | ██╔══██║██║   ██║   ██║   ██╔══╝  ██║         ██   ██║██╔══╝  ██║╚██╗██║██║╚██╗██║██║ |   | \r\n |   | ██║  ██║╚██████╔╝   ██║   ███████╗███████╗    ╚█████╔╝███████╗██║ ╚████║██║ ╚████║██║ |   | \r\n |   | ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚══════╝╚══════╝     ╚════╝ ╚══════╝╚═╝  ╚═══╝╚═╝  ╚═══╝╚═╝ |   | \r\n |   |                                                                                       |   | \r\n |   |                                                                                       |   | \r\n |___|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|___| \r\n(_____)                                                                                     (_____)\r\n\"");
 
                 // Use Spectre.Console SelectionPrompt for keyboard navigation + Enter selection
                 var choice = AnsiConsole.Prompt(
