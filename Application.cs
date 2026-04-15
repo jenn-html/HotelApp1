@@ -38,11 +38,14 @@ namespace HotelApp1
             var guestRepository = new GuestRepository(context);
             var guestService = new GuestService(guestRepository);
             var guestController = new GuestController(guestService);
+            var roomRepository = new RoomRepository(context);
+            var roomService = new RoomService(roomRepository);
+            var roomController = new RoomController(roomService);
             var bookingRepository = new BookingRepository(context);
             var bookingService = new BookingService(bookingRepository);
-            var bookingController = new BookingController(bookingService, guestService);
+            var bookingController = new BookingController(bookingService, guestController, roomController);
             Console.WriteLine(": \"\r\n _____                                                                                       _____ \r\n( ___ )                                                                                     ( ___ )\r\n |   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|   | \r\n |   |                                                                                       |   | \r\n |   |                                                                                       |   | \r\n |   | ██╗  ██╗ ██████╗ ████████╗███████╗██╗              ██╗███████╗███╗   ██╗███╗   ██╗██╗ |   | \r\n |   | ██║  ██║██╔═══██╗╚══██╔══╝██╔════╝██║              ██║██╔════╝████╗  ██║████╗  ██║██║ |   | \r\n |   | ███████║██║   ██║   ██║   █████╗  ██║              ██║█████╗  ██╔██╗ ██║██╔██╗ ██║██║ |   | \r\n |   | ██╔══██║██║   ██║   ██║   ██╔══╝  ██║         ██   ██║██╔══╝  ██║╚██╗██║██║╚██╗██║██║ |   | \r\n |   | ██║  ██║╚██████╔╝   ██║   ███████╗███████╗    ╚█████╔╝███████╗██║ ╚████║██║ ╚████║██║ |   | \r\n |   | ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚══════╝╚══════╝     ╚════╝ ╚══════╝╚═╝  ╚═══╝╚═╝  ╚═══╝╚═╝ |   | \r\n |   |                                                                                       |   | \r\n |   |                                                                                       |   | \r\n |___|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|___| \r\n(_____)                                                                                     (_____)\r\n\"");
-            var mainmenu = new MainMenu(bookingController, guestController, context);
+            var mainmenu = new MainMenu(bookingController, guestController, context, roomController);
             mainmenu.ShowMenu();
         }
     }

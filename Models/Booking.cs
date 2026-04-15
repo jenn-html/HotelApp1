@@ -33,9 +33,7 @@ namespace HotelApp1.Models
         [Required]
         public bool IsActive { get; set; } = true;
 
-        //public override string ToString()
-        //{
-        //        return $"Booking ID: {Id}, Customer ID: {Guest}, Room: {Room}, Check-In: {CheckIn:yyyy-MM-dd}, Check-Out: {CheckOut:yyyy-MM-dd}";
-        //}
+        public bool IsDeleted { get; set; } = false;
+
     }
 }

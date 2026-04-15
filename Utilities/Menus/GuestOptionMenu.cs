@@ -15,12 +15,13 @@ namespace HotelApp1.Utilities.Menus
         }
         public void ShowMenu()
         {
-
+            var guestUpdateMenu = new GuestUpdateMenu(_guestController);
+            var guestViewMenu = new GuestViewMenu(_guestController);
             string[] options = new[] {
                 "Show all guests",
                 "Add a new guest",
                 "Update a guest",
-                "DeleteById a guest",
+                "Delete a guest",
                 "Go back to Main"
             };
             var displayMenu = true;
@@ -43,24 +44,16 @@ namespace HotelApp1.Utilities.Menus
                 switch (selected)
                 {
                     case 0:
-                        _guestController.ShowAllGuests();
-                        Console.WriteLine("Showing all guests...");
-                        // TODO: show bookings
+                        guestViewMenu.ShowMenu();
                         break;
                     case 1:
                         _guestController.AddNewGuest();
-                        Console.WriteLine("Adding a new guest...");
-                        // TODO: add booking
                         break;
                     case 2:
-                        _guestController.UpdateGuest();
-                        Console.WriteLine("Updating a guest...");
-                        // TODO: update booking
+                        guestUpdateMenu.ShowMenu();
                         break;
                     case 3:
                         _guestController.DeleteGuest();
-                        Console.WriteLine("Deleting a guest...");
-                        // TODO: delete booking
                         break;
                     case 4:
                         return;

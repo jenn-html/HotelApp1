@@ -2,9 +2,6 @@
 using HotelApp1.Models;
 using HotelApp1.Services;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace HotelApp1.Repositories
 {
@@ -23,44 +20,125 @@ namespace HotelApp1.Repositories
             _dbContext.SaveChanges();
         }
 
-        public void DeleteById(int id)
+        public void DeleteBookingById(int id)
         {
-            var existingBooking = GetById(id);
-            if (!(existingBooking == null && existingBooking.CheckIn <= DateTime.Today))
+            var existingBooking = GetBookingById(id);
+            if (existingBooking == null)
             {
-                existingBooking.IsActive = false;
-                _dbContext.SaveChanges();
+                Console.WriteLine($"Can't find booking with id :{id}");
+                return;
             }
-            else if (existingBooking.CheckIn <= DateTime.Today) 
+            if (existingBooking.CheckIn <= DateTime.Today )
             {
                 Console.WriteLine("You can only delete a booking that haven't already started.");
+                return;
             }
-            else if (existingBooking == null){
-                Console.WriteLine($"Can't find booking with id :{id}");
+            if (!(existingBooking == null && existingBooking.CheckIn <= DateTime.Today))
+            {
+                existingBooking.IsDeleted = true;
+                existingBooking.IsActive = false;
+                _dbContext.SaveChanges();
             }
         }
 
         public List<Booking> GetAllBookings()
         {
             return _dbContext.Bookings
-                .Include(b => b.Guest)             // Hämtar gästens detaljer
-                .Include(b => b.Room)              // Hämtar rumsdetaljer
+                .Include(b => b.Guest)
+                .Include(b => b.Room)
                     .ThenInclude(r => r.RoomType)
-                    // Går ett steg djupare och hämtar RoomType från Room
-                .Where(b => b.IsActive)
-                // Filtrerar på aktiva bokningar
+                    .OrderBy(b => b.CheckIn)
                 .ToList();
         }
 
-        public Booking? GetById(int id)
+        public Booking? GetBookingById(int id)
         {
             return _dbContext.Bookings.FirstOrDefault(b => b.Id == id);
         }
 
-        public void Update(Booking booking)
+        public void UpdateBooking(Booking booking, Booking bookingToUpdate)
         {
-            _dbContext.Bookings.Update(booking);
+            bookingToUpdate.CheckIn = booking.CheckIn;
+            bookingToUpdate.CheckOut = booking.CheckOut;
+            bookingToUpdate.NumberOfGuests  = booking.NumberOfGuests;
+            bookingToUpdate.Room = booking.Room;
+            bookingToUpdate.IsActive = booking.IsActive;
+            bookingToUpdate.IsDeleted = booking.IsDeleted;
             _dbContext.SaveChanges();
+        }
+
+        public List<Booking> GetAllActiveBookings()
+        {
+            return _dbContext.Bookings
+               .Include(b => b.Guest)
+               .Include(b => b.Room)
+                   .ThenInclude(r => r.RoomType)
+                   .Where(b => b.IsDeleted == false)
+                   .OrderBy(b => b.CheckIn)
+               .ToList();
+        }
+
+        public List<Booking> GetAllDeletedBookings()
+        {
+            return _dbContext.Bookings
+            .Include(b => b.Guest)
+            .Include(b => b.Room)
+                .ThenInclude(r => r.RoomType)
+            .Where(b => b.IsDeleted == true)
+            .OrderBy(b => b.CheckIn)
+            .ToList();
+        }
+
+        public List<Booking> GetAllUpcomingBookings()
+        {
+            return _dbContext.Bookings
+            .Include(b => b.Guest)
+            .Include(b => b.Room)
+                .ThenInclude(r => r.RoomType)
+            .Where(b => b.CheckIn >= DateTime.Today)
+            .OrderBy (b => b.CheckIn)
+            .ToList();
+        }
+        public List<Room> GetAvailableRooms(DateTime checkIn, DateTime checkOut, int guests)
+        {
+            var bookedRoomIds = GetBookedRoomsId(checkIn, checkOut);
+            
+            return _dbContext.Rooms
+            .Where(r => r.IsActive
+                && (r.MaxGuestsPerRoomWithoutExtrabeds + r.ExtraBedsAvailable) >= guests
+                && !bookedRoomIds.Contains(r.Id))
+             .OrderBy(r => r.RoomNumber)
+             .Include(r => r.RoomType)
+            .ToList();
+        }
+
+        public List<Room> GetAvailableRoomsToUpdateBooking(DateTime checkIn, DateTime checkOut, int guests, int bookingid)
+        {
+            var bookedRoomIds = GetBookedRoomsId(checkIn, checkOut);
+            var currentBookingRoomId = _dbContext.Bookings
+            .Where(b => b.Id == bookingid)
+            .Select(b => (int?)b.Room.Id)
+            .FirstOrDefault();
+
+            if (currentBookingRoomId.HasValue)
+            {
+                bookedRoomIds.RemoveAll(id => id == currentBookingRoomId.Value);
+            }
+            return _dbContext.Rooms
+            .Where(r => r.IsActive
+                && (r.MaxGuestsPerRoomWithoutExtrabeds + r.ExtraBedsAvailable) >= guests
+                && !bookedRoomIds.Contains(r.Id))
+             .OrderBy(r => r.RoomNumber)
+             .Include(r => r.RoomType)
+            .ToList();     
+        }
+        public List<int> GetBookedRoomsId(DateTime checkIn, DateTime checkOut)
+        {
+            return _dbContext.Bookings
+            .Where(b => b.IsActive && b.CheckIn < checkOut && b.CheckOut > checkIn)
+            .Select(b => b.Room.Id)
+            .Distinct()
+            .ToList();
         }
     }
 }

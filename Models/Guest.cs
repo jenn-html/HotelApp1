@@ -24,7 +24,7 @@ namespace HotelApp1.Models
         public required string Street { get; set; }
 
 
-        [MaxLength (10)]
+        [MaxLength (50)]
         public required string PostalCode { get; set; }
 
 
@@ -42,6 +42,8 @@ namespace HotelApp1.Models
 
         [Required]
         public bool IsActive { get; set; } = true;
+
+        public bool IsDeleted { get; set; } = false;
 
         
         public List <Booking> Bookings { get; set; } = new List<Booking>();   

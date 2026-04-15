@@ -1,5 +1,6 @@
 ﻿using HotelApp1.Data;
 using HotelApp1.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -51,12 +52,13 @@ namespace HotelApp1.Repositories
 
         public List<Room> GetAllRooms()
         {
-            return _dbContext.Rooms.Where(b => b.IsActive == true)
+            return _dbContext.Rooms.Where(b => b.IsActive)
+                .Include(r => r.RoomType)
                 .OrderByDescending(b => b.RoomSize)
                 .ToList();
         }
 
-        public Room? GetById(int id)
+        public Room GetById(int id)
         {
             return _dbContext.Rooms.FirstOrDefault(b => b.Id == id);
         }

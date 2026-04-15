@@ -1,4 +1,5 @@
-﻿using Spectre.Console;
+﻿using HotelApp1.Controllers;
+using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,6 +8,11 @@ namespace HotelApp1.Utilities.Menus
 {
     public class RoomOptionMenu : IMenu
     {
+        private readonly RoomController _roomController;
+        public RoomOptionMenu(RoomController roomController)
+        {
+            _roomController = roomController;
+        }
         public void ShowMenu()
         {
 
@@ -14,7 +20,7 @@ namespace HotelApp1.Utilities.Menus
                 "Show all rooms",
                 "Add a new room",
                 "Update a room",
-                "DeleteById a room",
+                "Delete a room",
                 "Go back to Main"
             };
 
@@ -37,18 +43,22 @@ namespace HotelApp1.Utilities.Menus
                 switch (selected)
                 {
                     case 0:
+                        _roomController.ShowAllRooms();
                         Console.WriteLine("Showing all rooms...");
                         // TODO: show bookings
                         break;
                     case 1:
+                        _roomController.AddNewRoom();
                         Console.WriteLine("Adding a new room...");
                         // TODO: add booking
                         break;
                     case 2:
+                        _roomController.UpdateRoom();
                         Console.WriteLine("Updating a room...");
                         // TODO: update booking
                         break;
                     case 3:
+                        _roomController.DeleteRoom();
                         Console.WriteLine("Deleting a room...");
                         // TODO: delete booking
                         break;

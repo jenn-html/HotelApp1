@@ -8,9 +8,9 @@ namespace HotelApp1.Repositories
     public interface IBookingRepository
     {
         List<Booking> GetAllBookings();
-        Booking? GetById(int id);
+        Booking? GetBookingById(int id);
         void Add(Booking booking);
-        void Update(Booking booking);
-        void DeleteById(int id);
+        void UpdateBooking(Booking booking, Booking booking1);
+        void DeleteBookingById(int id);
     }
 }

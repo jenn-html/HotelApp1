@@ -17,8 +17,6 @@ namespace HotelApp1.Models
         [Required]
         [Range (10, 50)]
         public double RoomSize { get; set; }
-
-        [Required]
         
         public int RoomNumber { get; set; }
 
@@ -29,12 +27,14 @@ namespace HotelApp1.Models
         [Range(0, 2)]
         public int ExtraBedsAvailable { get; set; } = 0;
 
+        public required decimal PricePerNight { get; set; } 
+
+        public decimal PriceExtraBeds { get; set; } = 200;
+
         [Required]
         public bool IsActive { get; set; } = true;
 
-        public override string ToString()
-        {
-            return $"Room number: {RoomNumber}, {RoomType.Type}";
-        }
+        public bool IsDeleted { get; set; } = false;
+
     }
 }

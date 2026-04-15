@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelApp1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260410093146_Initial migration")]
-    partial class Initialmigration
+    [Migration("20260415013558_Updates in rooms")]
+    partial class Updatesinrooms
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,9 @@ namespace HotelApp1.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.HasSequence<int>("RoomNumbers", "dbo")
+                .StartsAt(200L);
 
             modelBuilder.Entity("HotelApp1.Models.Booking", b =>
                 {
@@ -43,6 +46,9 @@ namespace HotelApp1.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<int>("NumberOfGuests")
@@ -93,6 +99,9 @@ namespace HotelApp1.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -103,8 +112,8 @@ namespace HotelApp1.Migrations
 
                     b.Property<string>("PostalCode")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Street")
                         .IsRequired()
@@ -130,11 +139,22 @@ namespace HotelApp1.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int>("MaxGuestsPerRoomWithoutExtrabeds")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("PriceExtraBeds")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PricePerNight")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("RoomNumber")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("NEXT VALUE FOR dbo.RoomNumbers");
 
                     b.Property<double>("RoomSize")
                         .HasColumnType("float");

@@ -33,6 +33,19 @@ namespace HotelApp1.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            
+            modelBuilder.HasSequence<int>("RoomNumbers", schema: "dbo")
+                .StartsAt(200)
+                .IncrementsBy(1);
+
+            modelBuilder.Entity<Room>(b =>
+            {
+                b.HasIndex(r => r.RoomNumber).IsUnique();
+
+                b.Property(r => r.RoomNumber)
+                 .HasDefaultValueSql("NEXT VALUE FOR dbo.RoomNumbers")
+                 .ValueGeneratedOnAdd();
+            });
 
             modelBuilder.Entity<Room>()
                 .HasIndex(r => r.RoomNumber)

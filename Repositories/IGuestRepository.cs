@@ -10,7 +10,7 @@ namespace HotelApp1.Repositories
         List<Guest> GetAll();
         Guest GetById(int id);
         void Add(Guest guest);
-        void Update(Guest guest);
+        void Update(Guest guest, Guest guest1);
         void DeleteById(int id);
     }
 }

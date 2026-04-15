@@ -32,5 +32,10 @@ namespace HotelApp1.Services
         {
             throw new NotImplementedException();
         }
+
+        public Room GetById(int roomId)
+        {
+            return _roomRepository.GetById(roomId);
+        }
     }
 }

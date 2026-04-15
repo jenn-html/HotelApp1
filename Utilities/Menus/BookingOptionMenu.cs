@@ -13,21 +13,25 @@ namespace HotelApp1.Utilities.Menus
         private readonly BookingController _bookingController;
         private readonly GuestController _guestController;
         private readonly ApplicationDbContext _dbContext;
-        public BookingOptionMenu(BookingController bookingController, ApplicationDbContext dbContext, GuestController guestController   )
+        private readonly RoomController _roomController;
+        public BookingOptionMenu(BookingController bookingController, ApplicationDbContext dbContext, GuestController guestController, RoomController roomController )
         {
             _dbContext = dbContext;
             _bookingController = bookingController;
             _guestController = guestController;
+            _roomController = roomController;
         }
         public void ShowMenu()
         {
-            var bookingAvailableMenu = new BookingAvailabilityMenu(_dbContext, _bookingController);
+            var bookingAvailableMenu = new BookingAvailabilityCalendar( _bookingController);
+            var bookingViewMenu = new BookingViewMenu(_bookingController);
+            var id = 0;
             string[] options = new[] {
            
-                "Show all bookings",
+                "View bookings",
                 "Add a new booking",
                 "Update a booking",
-                "DeleteById a booking",
+                "Delete a booking",
                 "Go back to Main"
             };
           
@@ -51,14 +55,15 @@ namespace HotelApp1.Utilities.Menus
                 {
                     
                     case 0:
-                        _bookingController.ShowAllBookings();
+                        bookingViewMenu.ShowMenu();
                         break;
                     case 1:
-                        bookingAvailableMenu.ShowAvailability();
-                        //_bookingController.AddBooking(_dbContext);
+                        //bookingAvailableMenu.ShowAvailability();
+                        _bookingController.CheckAndSelectDateForBooking(_bookingController, id);
+                        
                         break;
                     case 2:
-                        _bookingController.UpdateBooking();
+                        _bookingController.SelectAndUpdateBooking();
                         break;
                     case 3:
                         _bookingController.RemoveBooking();

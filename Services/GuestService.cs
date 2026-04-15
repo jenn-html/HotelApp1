@@ -13,9 +13,9 @@ namespace HotelApp1.Services
         {
             _guestRepository = guestRepository;
         }
-        public void Create()
+        public void AddNewGuest(Guest guest)
         {
-            throw new NotImplementedException();
+            _guestRepository.Add(guest);
         }
 
         public void Delete(int id)
@@ -35,6 +35,31 @@ namespace HotelApp1.Services
         public void Update()
         {
             throw new NotImplementedException();
+        }
+
+        public void AddDeletedGuest(Guest guestToAdd)
+        {
+            _guestRepository.AddDeletedGuest(guestToAdd);
+        }
+
+        public List<Guest> GetAllActiveGuests()
+        {
+            return _guestRepository.GetAllActiveGuests();
+        }
+
+        public List<Guest> GetAllDeletedGuests()
+        {
+            return _guestRepository.GetAllDeletedGuests();
+        }
+
+        public List<Guest> GetAllGuestsToday()
+        {
+            return _guestRepository.GetAllGuestsToday();
+        }
+
+        public void UpdateGuest(Guest existingGuest, Guest updatedGuest)
+        {
+           _guestRepository.Update(existingGuest, updatedGuest);
         }
     }
 }

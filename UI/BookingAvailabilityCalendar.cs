@@ -1,22 +1,19 @@
 ﻿
 using HotelApp1.Controllers;
-using HotelApp1.Data;
-using Microsoft.EntityFrameworkCore;
+using HotelApp1.Models;
 using Spectre.Console;
 using System.Text;
 
 namespace HotelApp1.UI
 {
-    public class BookingAvailabilityMenu
+    public class BookingAvailabilityCalendar
     {
-        private readonly ApplicationDbContext _dbContext;
-        private readonly BookingController _bookingController;
-        public BookingAvailabilityMenu(ApplicationDbContext dbContext, BookingController bookingController)
+        public readonly BookingController _bookingController;
+        public BookingAvailabilityCalendar(BookingController bookingController)
         {
             _bookingController = bookingController;
-            _dbContext = dbContext;
         }
-        public void ShowAvailability()
+        public void ShowAvailability(int id)
         {
             Console.OutputEncoding = Encoding.UTF8;
 
@@ -36,38 +33,36 @@ namespace HotelApp1.UI
             if (checkOut <= checkIn)
             {
                 AnsiConsole.MarkupLine("[red]Check-out date has to be after check-in date.[/]");
-                Console.ReadKey(true);
+                //Console.ReadKey(true);
                 return;
             }
 
             var guests = AnsiConsole.Prompt(
                 new TextPrompt<int>("[yellow]Select number of guests:[/]")
-                    .Validate(g => g > 0 ? ValidationResult.Success() : ValidationResult.Error("[red]Select a number over 0[/]"))
+                    .Validate(g => g > 0 && g < 5 ? ValidationResult.Success() : ValidationResult.Error("[red]Minimum 1 guest and maximum 4 per room[/]"))
             );
 
-            // Query booked room ids for overlapping active bookings
-            var bookedRoomIds = _dbContext.Bookings
-                .Where(b => b.IsActive && b.CheckIn < checkOut && b.CheckOut > checkIn)
-                .Select(b => b.Room.Id)
-                .Distinct()
-                .ToList();
-
-            var available = _dbContext.Rooms
-                .Where(r => r.IsActive
-                            && (r.MaxGuestsPerRoomWithoutExtrabeds + r.ExtraBedsAvailable) >= guests
-                            && !bookedRoomIds.Contains(r.Id))
-                .OrderBy(r => r.RoomNumber)
-                .Include(r => r.RoomType)
-                .ToList();
+            var selectedCheckinDate = Convert.ToDateTime(checkIn);
+            var selectedCheckoutDate = Convert.ToDateTime(checkOut);
+            List<Room> available = new List<Room>();
+            if (id == 0)
+            {
+                available = _bookingController.GetAvailibleRooms(selectedCheckinDate, selectedCheckoutDate, guests);
+            }
+            else
+            {
+                available = _bookingController.GetAvailableRoomsToUpdateBooking(selectedCheckinDate,selectedCheckoutDate, guests,id);
+            }
             var selectedRoom = 0;
             bool continueLoop = true;
             while (continueLoop == true)
             {
                 Console.Clear();
-                AnsiConsole.MarkupLine($"[green]Availible rooms from {checkIn:yyyy-MM-dd} to {checkOut:yyyy-MM-dd} for {guests} guests:[/]");
+                AnsiConsole.MarkupLine($"[green1]Availible rooms from {checkIn:yyyy-MM-dd} to {checkOut:yyyy-MM-dd} for {guests} guests:[/]");
                 if (!available.Any())
                 {
                     AnsiConsole.MarkupLine("[red]No availible rooms for the choosen date and number of guests.[/]");
+                    break;
                 }
                 else
                 {
@@ -89,25 +84,27 @@ namespace HotelApp1.UI
                     {
                         if (r.RoomNumber == selectedRoom)
                         {
+                            selectedRoom = r.Id;
                             continueLoop = false;
+                            break;
                         }
                     }
-
-
-                    AnsiConsole.MarkupLine($"Room number {selectedRoom} is not availible");
-
                 }
                 catch
                 {
                     AnsiConsole.WriteLine("Selected room number invalid");
+                    AnsiConsole.WriteLine("Press enter to try again");
+                    Console.ReadKey();
                 }
-                AnsiConsole.WriteLine("Press enter to try again");
-                Console.ReadKey();
             }
-            var selectedCheckinDate = Convert.ToDateTime(checkIn);
-            var selectedCheckoutDate = Convert.ToDateTime(checkOut);
-            var numberOfGuests = guests;
-            _bookingController.AddBooking(_dbContext, selectedCheckinDate, selectedCheckoutDate, guests, selectedRoom);
+            if (id == 0)
+            {
+                _bookingController.AddNewBooking(selectedCheckinDate, selectedCheckoutDate, guests, selectedRoom);
+            }
+            else 
+            {
+                _bookingController.UpdateBooking(selectedCheckinDate, selectedCheckoutDate, guests, selectedRoom, id);
+            }
         }
 
         private static DateTime? PickDate(string title, DateTime initial)
@@ -141,7 +138,7 @@ namespace HotelApp1.UI
                         selectedDate = selectedDate.AddMonths(1);
                         break;
                     case ConsoleKey.Enter:
-                        AnsiConsole.MarkupLine($"\n[green]Valt: {selectedDate:yyyy-MM-dd}[/]");
+                        AnsiConsole.MarkupLine($"\n[green1]Valt: {selectedDate:yyyy-MM-dd}[/]");
                         return selectedDate;
                     case ConsoleKey.Escape:
                         return null;
@@ -153,7 +150,7 @@ namespace HotelApp1.UI
         {
             var stringWriter = new StringWriter();
 
-            stringWriter.WriteLine($"[magenta]{title}[/]\n");
+            stringWriter.WriteLine($"[Green1]{title}[/]\n");
             stringWriter.WriteLine($"[DeepPink2]{selectedDate:MMMM}[/]".ToUpper());
             stringWriter.WriteLine("Mån  Tis  Ons  Tor  Fre  Lör  Sön");
             stringWriter.WriteLine("─────────────────────────────────");
@@ -173,11 +170,11 @@ namespace HotelApp1.UI
                 var date = new DateTime(selectedDate.Year, selectedDate.Month, day);
                 if (date == selectedDate.Date)
                 {
-                    stringWriter.Write($"[Chartreuse2]{day,2}[/]   ");
+                    stringWriter.Write($"[Green1]{day,2}[/]   ");
                 }
                 else if (date == DateTime.Today)
                 {
-                    stringWriter.Write($"[Cyan]{day,2}[/]   ");
+                    stringWriter.Write($"[DodgerBlue3]{day,2}[/]   ");
                 }
                 else
                 {
