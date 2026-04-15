@@ -1,5 +1,6 @@
 ﻿using HotelApp1.Models;
 using HotelApp1.Services;
+using HotelApp1.UI.Prompts;
 using Spectre.Console;
 using System;
 using System.Collections.Generic;
@@ -58,17 +59,19 @@ namespace HotelApp1.Controllers
 
         public void DeleteRoom()
         {
-            throw new NotImplementedException();
+            
         }
 
         public void UpdateRoom()
         {
-            throw new NotImplementedException();
+            
         }
 
         public void AddNewRoom()
         {
-            throw new NotImplementedException();
+            AnsiConsole.MarkupLine("--ADD NEW ROOM--");
+            var roomSize = RoomPrompts.PromptRoomSize();
+            var roomType = RoomPrompts.PromptRoomType();
         }
     }
 
