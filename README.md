@@ -34,6 +34,12 @@ To handle bookings and guest data, you need to download **SQL Server Management 
 2. Open file --> syntax.sql  *Now you have SQL syntaxes to easy access information in database!* 
 3. Open **SSMS** and connect to your local server.
 
+##  Dependencies and packages
+* **CloudinaryDotNet (1.28.0)**
+* **Microsoft.EntityFramework.Core.SqlServer (10.0.5)**
+* **Microsoft.EntityFramework.Core.Tools (10.0.5)**
+* **Microsoft.Extensions.Configuration.Json (10.0.5)**
+* **spectre.Console (0.54.0)**
 
 ## 🛠 Features
 * **Guest Management:** Full CRUD for guest records.
