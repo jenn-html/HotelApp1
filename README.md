@@ -22,12 +22,15 @@ The application is designed to be plug-and-play. The database and necessary tabl
 3. **Open** `HotelApp1.sln` in Visual Studio.
 instance.
 4. **Run the app:** Press `F5`. The application will automatically create the database and tables for you.
-   
+5.Go to folder --> Diagram
+6.Open file --> ERD-diagram-Jennifer.drawio *There you have my ERD!*
+7.Go to folder --> SQL
+8.Open file --> 3NF uppfyllnad.docx    
 
 ### Database 
 To handle bookings and guest data, you need to download **SQL Server Management Studio (SSMS)**
 
-1. Go to Folder --> Database 
+1. Go to Folder --> SQL 
 2. Open file --> syntax.sql  *Now you have SQL syntaxes to easy access information in database!* 
 3. Open **SSMS** and connect to your local server.
 
