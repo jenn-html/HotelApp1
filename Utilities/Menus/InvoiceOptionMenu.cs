@@ -1,4 +1,6 @@
 ﻿using HotelApp1.Controllers;
+using HotelApp1.UI;
+using HotelApp1.Utilities.Interfaces;
 using Spectre.Console;
 using System;
 using System.Collections.Generic;
@@ -25,7 +27,7 @@ namespace HotelApp1.Utilities.Menus
             while (true)
             {
                 Console.Clear();
-
+                Banner.HotelJenniBanner();
                 // Use Spectre.Console SelectionPrompt for keyboard navigation + Enter selection
                 var choice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()

@@ -1,12 +1,13 @@
 ﻿using HotelApp1.Models;
 using HotelApp1.Repositories;
+using HotelApp1.Utilities.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace HotelApp1.Services
 {
-    public class BookingService 
+    public class BookingService : ICRUDBooking
     {
 
         private readonly BookingRepository _bookingRepository;
@@ -19,17 +20,17 @@ namespace HotelApp1.Services
             return _bookingRepository.GetAllBookings();
         }
 
-        public Booking? GetById(int id)
+        public Booking? GetBookingById(int id)
         {
             return _bookingRepository.GetBookingById(id);
         }
 
-        public void DeleteById(int id)
+        public void DeleteBookingById(int id)
         {
             _bookingRepository.DeleteBookingById(id);
         }
 
-        public void Update(Booking booking, Booking bookingToUpdate)
+        public void UpdateBooking(Booking booking, Booking bookingToUpdate)
         {
             _bookingRepository.UpdateBooking(booking, bookingToUpdate);
         }
@@ -54,12 +55,12 @@ namespace HotelApp1.Services
             return _bookingRepository.GetAllUpcomingBookings();
         }
 
-        public List<Room> GetAvailibleRooms(DateTime checkIn, DateTime checkOut, int guests)
+        public List<Room> GetAvailableRooms(DateTime checkIn, DateTime checkOut, int guests)
         {
             return _bookingRepository.GetAvailableRooms(checkIn, checkOut, guests);
         }
 
-        public List<Room> GetAvailibleRoomsToUpdateBooking(DateTime checkin, DateTime checkout, int guests, int bookingid)
+        public List<Room> GetAvailableRoomsToUpdateBooking(DateTime checkin, DateTime checkout, int guests, int bookingid)
         {
             return _bookingRepository.GetAvailableRoomsToUpdateBooking(checkin,checkout,guests, bookingid);
         }

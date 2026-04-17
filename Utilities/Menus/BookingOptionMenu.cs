@@ -1,6 +1,8 @@
 ﻿using HotelApp1.Controllers;
 using HotelApp1.Data;
 using HotelApp1.UI;
+using HotelApp1.UI.Calendar;
+using HotelApp1.Utilities.Interfaces;
 using Spectre.Console;
 using System;
 using System.Collections.Generic;
@@ -41,7 +43,8 @@ namespace HotelApp1.Utilities.Menus
             {
                 Console.Clear();
 
-                // Use Spectre.Console SelectionPrompt for keyboard navigation + Enter selection
+                Banner.HotelJenniBanner();
+
                 var choice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
                         .Title("[LightGreen_1]---BOOKING MENU---[/]")
@@ -60,7 +63,6 @@ namespace HotelApp1.Utilities.Menus
                         bookingViewMenu.ShowMenu();
                         break;
                     case 1:
-                        //bookingAvailableMenu.ShowAvailability();
                         _bookingController.CheckAndSelectDateForBooking(_bookingController, id);
                         
                         break;

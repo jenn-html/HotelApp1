@@ -105,7 +105,7 @@ namespace HotelApp1.Controllers
                     }
                     else
                     {
-                        _roomService.DeleteRoom(room); 
+                        _roomService.Delete(room); 
                         AnsiConsole.MarkupLine($"[green]Room deleted![/]"); 
                         run = false;
                      break;
@@ -221,7 +221,7 @@ namespace HotelApp1.Controllers
                 PricePerNight = totalprice,
                 IsActive = true
             };
-            _roomService.AddNewRoom(newRoom);
+            _roomService.AddRoom(newRoom);
             AnsiConsole.MarkupLine($"[green]New room added![/]");
         }
     }

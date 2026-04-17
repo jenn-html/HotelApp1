@@ -1,5 +1,6 @@
 ﻿using HotelApp1.Data;
 using HotelApp1.Models;
+using HotelApp1.Utilities.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Spectre.Console;
 using System;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace HotelApp1.Repositories
 {
-    public class InvoiceRepository : IInvoiceRepository
+    public class InvoiceRepository : ICRUDInvoice
     {
         private readonly ApplicationDbContext _context;
         public InvoiceRepository(ApplicationDbContext context)

@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HotelApp1.Repositories
+namespace HotelApp1.Utilities.Interfaces
 {
-    public interface IInvoiceRepository
+    public interface ICRUDInvoice
     {
         public Invoice CreateInvoice(Invoice invoice);
         public Invoice GetInvoiceById(int invoiceId);

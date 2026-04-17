@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HotelApp1.Repositories
+namespace HotelApp1.Utilities.Interfaces
 {
-    public interface IRoomRepository
+    public interface ICRUDRoom
     {
         List<Room> GetAllRooms();
         public Room GetById(int id);

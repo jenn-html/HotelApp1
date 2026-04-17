@@ -1,10 +1,9 @@
-﻿
-using HotelApp1.Controllers;
+﻿using HotelApp1.Controllers;
 using HotelApp1.Models;
 using Spectre.Console;
 using System.Text;
 
-namespace HotelApp1.UI
+namespace HotelApp1.UI.Calendar
 {
     public class BookingAvailabilityCalendar
     {

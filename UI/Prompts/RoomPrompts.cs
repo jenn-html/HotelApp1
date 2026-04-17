@@ -26,20 +26,12 @@ namespace HotelApp1.UI.Prompts
            );
             return roomType;
         }
-        public static int PromptRoomCapacity()
-        {
-            var roomType = AnsiConsole.Prompt(
-               new TextPrompt<int>("[yellow]Room type:[/]")
-                   .Validate(g => g >= 0 ? ValidationResult.Success() : ValidationResult.Error("[red]You must enter a value (1/2)[/]"))
-           );
-            return roomType;
-        }
 
         public static decimal PromptPriceSquareFeet()
         {
             var roomPriceSquarefeet = AnsiConsole.Prompt(
       new TextPrompt<int>("[yellow]Price per/kvm:[/]")
-          .Validate(g => g >= 50 ? ValidationResult.Success() : ValidationResult.Error("[red]Minimum price 50kr/kvm[/]"))
+          .Validate(g => g >= 50 && g <= 500? ValidationResult.Success() : ValidationResult.Error("[red]Minimum price 50kr/kvm maximum 500kr/kvm[/]"))
   );
             return roomPriceSquarefeet;
         }

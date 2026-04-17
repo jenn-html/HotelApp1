@@ -1,5 +1,6 @@
 ﻿using HotelApp1.Models;
 using HotelApp1.Repositories;
+using HotelApp1.Utilities.Interfaces;
 using Spectre.Console;
 using System;
 using System.Collections.Generic;
@@ -7,19 +8,19 @@ using System.Text;
 
 namespace HotelApp1.Services
 {
-    public class RoomService 
+    public class RoomService : ICRUDRoom
     {
         private readonly RoomRepository _roomRepository;
         public RoomService(RoomRepository roomRepository)
         {
             _roomRepository = roomRepository;
         }
-        public void AddNewRoom(Room room)
+        public void AddRoom(Room room)
         {
             _roomRepository.AddRoom(room);
         }
 
-        public void DeleteRoom(Room room)
+        public void Delete(Room room)
         {
             _roomRepository.Delete(room);
         }

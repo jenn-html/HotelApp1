@@ -41,7 +41,7 @@ namespace HotelApp1.Controllers
                 Phone = Phone,
                 IsActive = IsActive,
             };
-            _guestService.AddNewGuest(newGuest);
+            _guestService.Add(newGuest);
         }
         public void ShowAllGuests(List<Guest> guests)
         {
@@ -137,7 +137,7 @@ namespace HotelApp1.Controllers
                         Phone = newPhone,
                         IsActive = newIsActive,
                     };
-                    _guestService.UpdateGuest(existingGuest, updatedGuest);
+                    _guestService.Update(existingGuest, updatedGuest);
                     AnsiConsole.MarkupLine($"[green]Guest updated![/]");
                 }
             }
@@ -172,7 +172,7 @@ namespace HotelApp1.Controllers
                         return;
                     }
 
-                    _guestService.Delete(existingGuest);
+                    _guestService.DeleteGuest(existingGuest);
                     AnsiConsole.MarkupLine($"[green]Guest deleted![/]");
                 }
                 catch
@@ -188,7 +188,7 @@ namespace HotelApp1.Controllers
 
         public void GetAllGuests()
         {
-            var allGuests = _guestService.GetAllGuests();
+            var allGuests = _guestService.GetAll();
             AnsiConsole.MarkupLine("[plum1]--LIST OF ALL GUESTS--[/]");
             if (allGuests.Any())
             {

@@ -1,12 +1,14 @@
 ﻿using HotelApp1.Models;
+using HotelApp1.Repositories;
 using HotelApp1.Services;
 using HotelApp1.UI;
+using HotelApp1.UI.Calendar;
 using HotelApp1.UI.Prompts;
 using Spectre.Console;
 
 namespace HotelApp1.Controllers
 {
-    public class BookingController
+    public class BookingController 
     {
         private readonly GuestController _guestController;
         private readonly BookingService _bookingService;
@@ -138,7 +140,7 @@ namespace HotelApp1.Controllers
                 new TextPrompt<int>("[yellow]Booking ID:[/]")
                     .Validate(i => i > 0 ? ValidationResult.Success() : ValidationResult.Error("[red]Enter a positive integer[/]"))
             );
-            var booking = _bookingService.GetById(id);
+            var booking = _bookingService.GetBookingById(id);
             if (booking == null || booking.IsActive == false) { AnsiConsole.MarkupLine($"[red]Could not find booking with id {id}[/]"); }
             else
             {
@@ -149,7 +151,7 @@ namespace HotelApp1.Controllers
         }
         public void UpdateBooking(DateTime checkIn, DateTime checkOut, int guests, int selectedRoomId, int bookingid)
         {
-            var bookingToUpdate = _bookingService.GetById(bookingid);
+            var bookingToUpdate = _bookingService.GetBookingById(bookingid);
             var selectedRoom = _roomController.GetRoomById(selectedRoomId);
             var numberOfNights = (checkOut - checkIn).Days;
             var numberofmaxguests = selectedRoom.MaxGuestsPerRoomWithoutExtrabeds + selectedRoom.ExtraBedsAvailable;
@@ -184,7 +186,7 @@ namespace HotelApp1.Controllers
                     };
                     try
                     {
-                        _bookingService.Update(booking, bookingToUpdate);
+                        _bookingService.UpdateBooking(booking, bookingToUpdate);
                         _invoiceController.DeleteInvoice(bookingToUpdate);
                         AnsiConsole.MarkupLine("[green]Booking successfully updated![/]");
                     }
@@ -216,7 +218,7 @@ namespace HotelApp1.Controllers
                 try
                 {
                     var bookingIdToDelete = BookingPrompts.PromptEnterId();
-                    var bookingToDelete = _bookingService.GetById(bookingIdToDelete);
+                    var bookingToDelete = _bookingService.GetBookingById(bookingIdToDelete);
                     var bookings = _bookingService.GetAllDeletedBookings();
                     var isDeleted = false;
                     foreach (var booking in bookings)
@@ -228,7 +230,7 @@ namespace HotelApp1.Controllers
                     }
                     if (bookingToDelete != null && isDeleted == false)
                     {
-                        _bookingService.DeleteById(bookingIdToDelete);
+                        _bookingService.DeleteBookingById(bookingIdToDelete);
                         _invoiceController.DeleteInvoice(bookingToDelete);
                         AnsiConsole.MarkupLine($"[green]Booking successfully deleted![/]");
                         run = false;
@@ -258,11 +260,11 @@ namespace HotelApp1.Controllers
 
         public List<Room> GetAvailibleRooms(DateTime checkIn, DateTime checkOut, int guests)
         {
-            return _bookingService.GetAvailibleRooms(checkIn, checkOut, guests);
+            return _bookingService.GetAvailableRooms(checkIn, checkOut, guests);
         }
         public List<Room> GetAvailableRoomsToUpdateBooking(DateTime checkin, DateTime checkout, int guests, int bookingId)
         {
-            return _bookingService.GetAvailibleRoomsToUpdateBooking(checkin, checkout, guests, bookingId);
+            return _bookingService.GetAvailableRoomsToUpdateBooking(checkin, checkout, guests, bookingId);
         }
 
         public void AddNewBooking(DateTime checkIn, DateTime checkOut, int guests, int roomId)

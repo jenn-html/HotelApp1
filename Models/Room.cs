@@ -10,14 +10,14 @@ namespace HotelApp1.Models
     {
         [Key]
         [Required]
-        public int Id { get; set; } 
-
+        public int Id { get; set; }
+        [Required]
         public  required RoomType RoomType { get; set; }
 
         [Required]
-        [Range (10, 50)]
+        [Range(10, 50)]
         public double RoomSize { get; set; }
-        
+        [Required]
         public int RoomNumber { get; set; }
 
         [Required]
@@ -26,11 +26,15 @@ namespace HotelApp1.Models
 
         [Range(0, 2)]
         public int ExtraBedsAvailable { get; set; } = 0;
+        
 
         public int ExtraBedsAdded { get; set; } = 0;
+        [Range(50,500)]
         public required decimal PricePerSquarefeet { get; set; } = 100;
+        [Required]
 
-        public required decimal PricePerNight { get; set; } 
+        public required decimal PricePerNight { get; set; }
+        [Required]
 
         public decimal PriceExtraBeds { get; set; } = 200;
 

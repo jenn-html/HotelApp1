@@ -183,7 +183,7 @@ namespace HotelApp1.Controllers
         {
             var invoiceIdToDelete = bookingToUpdate.Invoice.ID;
             var invoice = _invoiceService.GetInvoiceById(invoiceIdToDelete);
-            _invoiceService.DeletedInvoice(invoice);
+            _invoiceService.DeleteInvoice(invoice);
         }
     }
 }

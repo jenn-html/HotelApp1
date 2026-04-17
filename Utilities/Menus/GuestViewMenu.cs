@@ -1,4 +1,6 @@
 ﻿using HotelApp1.Controllers;
+using HotelApp1.UI;
+using HotelApp1.Utilities.Interfaces;
 using Spectre.Console;
 
 namespace HotelApp1.Utilities.Menus
@@ -28,6 +30,7 @@ namespace HotelApp1.Utilities.Menus
             {
                 Console.Clear();
 
+                Banner.HotelJenniBanner();
 
                 var choice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()

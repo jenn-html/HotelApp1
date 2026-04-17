@@ -1,5 +1,6 @@
 ﻿using HotelApp1.Data;
 using HotelApp1.Models;
+using HotelApp1.Utilities.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Spectre.Console;
 using System;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace HotelApp1.Repositories
 {
-    public class RoomRepository : IRoomRepository
+    public class RoomRepository : ICRUDRoom
     {
         private readonly ApplicationDbContext _dbContext;
 

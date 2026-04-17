@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HotelApp1.Repositories
+namespace HotelApp1.Utilities.Interfaces
 {
-    public interface IBookingRepository
+    public interface ICRUDBooking
     {
         List<Booking> GetAllBookings();
         Booking? GetBookingById(int id);
@@ -18,6 +18,5 @@ namespace HotelApp1.Repositories
         public List<Booking> GetAllUpcomingBookings();
         public List<Room> GetAvailableRooms(DateTime checkIn, DateTime checkOut, int guests);
         public List<Room> GetAvailableRoomsToUpdateBooking(DateTime checkIn, DateTime checkOut, int guests, int bookingid);
-        public List<int> GetBookedRoomsId(DateTime checkIn, DateTime checkOut);
     }
 }

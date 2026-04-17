@@ -1,11 +1,12 @@
 ﻿using HotelApp1.Data;
 using HotelApp1.Models;
 using HotelApp1.Services;
+using HotelApp1.Utilities.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelApp1.Repositories
 {
-    public class BookingRepository : IBookingRepository
+    public class BookingRepository : ICRUDBooking
     {
         private readonly ApplicationDbContext _dbContext;
 

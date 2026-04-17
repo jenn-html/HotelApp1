@@ -1,12 +1,13 @@
 ﻿using HotelApp1.Models;
 using HotelApp1.Repositories;
+using HotelApp1.Utilities.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace HotelApp1.Services
 {
-    public class InvoiceService
+    public class InvoiceService : ICRUDInvoice
     {
         private readonly InvoiceRepository _invoiceRepository;
         public InvoiceService(InvoiceRepository invoiceRepository)
@@ -38,7 +39,7 @@ namespace HotelApp1.Services
             return _invoiceRepository.CreateInvoice(invoice);
         }
 
-        public void DeletedInvoice(Invoice invoiceToDelete)
+        public void DeleteInvoice(Invoice invoiceToDelete)
         {
             _invoiceRepository.DeleteInvoice(invoiceToDelete);
         }

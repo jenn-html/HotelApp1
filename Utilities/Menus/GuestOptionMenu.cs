@@ -1,4 +1,6 @@
 ﻿using HotelApp1.Controllers;
+using HotelApp1.UI;
+using HotelApp1.Utilities.Interfaces;
 using Spectre.Console;
 using System;
 using System.Collections.Generic;
@@ -18,7 +20,7 @@ namespace HotelApp1.Utilities.Menus
             var guestUpdateMenu = new GuestUpdateMenu(_guestController);
             var guestViewMenu = new GuestViewMenu(_guestController);
             string[] options = new[] {
-                $"[orchid]SHOW ALL GUESTS[/]",
+                $"[orchid]VIEW GUESTS[/]",
                 $"[orchid]ADD A NEW GUEST[/]",
                 $"[orchid]UPDATE A GUEST[/]",
                 $"[orchid]DELETE A GUEST[/]",
@@ -29,6 +31,7 @@ namespace HotelApp1.Utilities.Menus
             {
                 Console.Clear();
 
+                Banner.HotelJenniBanner();
                 // Use Spectre.Console SelectionPrompt for keyboard navigation + Enter selection
                 var choice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()

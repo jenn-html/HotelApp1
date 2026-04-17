@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace HotelApp1.Utilities;
+namespace HotelApp1.Utilities.Settings;
 static class ConsoleSetup
 {
     [DllImport("kernel32.dll")] static extern bool SetConsoleOutputCP(uint wCodePageID);
@@ -20,11 +20,9 @@ static class ConsoleSetup
         Console.OutputEncoding = Encoding.UTF8;
         Console.InputEncoding = Encoding.UTF8;
 
-        // Set Windows console code page to UTF-8
         SetConsoleOutputCP(65001);
         SetConsoleCP(65001);
 
-        // Try enable ANSI VT processing (colors)
         var handle = GetStdHandle(STD_OUTPUT_HANDLE);
         if (GetConsoleMode(handle, out var mode))
         {

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using HotelApp1.Controllers;
 using HotelApp1.Data;
+using HotelApp1.UI;
+using HotelApp1.Utilities.Interfaces;
 using Spectre.Console;
 
 namespace HotelApp1.Utilities.Menus
@@ -36,14 +38,13 @@ namespace HotelApp1.Utilities.Menus
                 "[DeepPink2]GUEST MENU[/]",
                 "[DeepPink2]ROOM MENU[/]",
                 "[DeepPink2]INVOICE MENU[/]",
-                "[DeepPink2]EXIT[/]"
+                "[yellow]EXIT[/]"
             };
             
             while (true)
             {
                 Console.Clear();
-
-                Console.WriteLine(" \r\n _____                                                                                       _____ \r\n( ___ )                                                                                     ( ___ )\r\n |   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|   | \r\n |   |                                                                                       |   | \r\n |   |                                                                                       |   | \r\n |   | ██╗  ██╗ ██████╗ ████████╗███████╗██╗              ██╗███████╗███╗   ██╗███╗   ██╗██╗ |   | \r\n |   | ██║  ██║██╔═══██╗╚══██╔══╝██╔════╝██║              ██║██╔════╝████╗  ██║████╗  ██║██║ |   | \r\n |   | ███████║██║   ██║   ██║   █████╗  ██║              ██║█████╗  ██╔██╗ ██║██╔██╗ ██║██║ |   | \r\n |   | ██╔══██║██║   ██║   ██║   ██╔══╝  ██║         ██   ██║██╔══╝  ██║╚██╗██║██║╚██╗██║██║ |   | \r\n |   | ██║  ██║╚██████╔╝   ██║   ███████╗███████╗    ╚█████╔╝███████╗██║ ╚████║██║ ╚████║██║ |   | \r\n |   | ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚══════╝╚══════╝     ╚════╝ ╚══════╝╚═╝  ╚═══╝╚═╝  ╚═══╝╚═╝ |   | \r\n |   |                                                                                       |   | \r\n |   |                                                                                       |   | \r\n |___|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|___| \r\n(_____)                                                                                     (_____)\r\n");
+                Banner.HotelJenniBanner();
 
                 // Use Spectre.Console SelectionPrompt for keyboard navigation + Enter selection
                 var choice = AnsiConsole.Prompt(
