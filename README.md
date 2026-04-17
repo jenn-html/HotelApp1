@@ -31,7 +31,7 @@ instance.
 To handle bookings and guest data, you need to download **SQL Server Management Studio (SSMS)**
 
 1. Go to Folder --> SQL 
-2. Open file --> syntax.sql  *Now you have SQL syntaxes to easy access information in database!* 
+2. Open file --> SQLQuery-Jennifer.sql  *Now you have SQL syntaxes to easy access information in database!* 
 3. Open **SSMS** and connect to your local server.
 
 ##  Dependencies and packages
