@@ -11,6 +11,14 @@ namespace HotelApp1.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "dbo");
+
+            migrationBuilder.CreateSequence<int>(
+                name: "RoomNumbers",
+                schema: "dbo",
+                startValue: 200L);
+
             migrationBuilder.CreateTable(
                 name: "Guests",
                 columns: table => new
@@ -25,8 +33,7 @@ namespace HotelApp1.Migrations
                     Country = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -47,6 +54,30 @@ namespace HotelApp1.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Invoices",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsPayed = table.Column<bool>(type: "bit", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    LastDayToPay = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    GuestId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Invoices", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Invoices_Guests_GuestId",
+                        column: x => x.GuestId,
+                        principalTable: "Guests",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Rooms",
                 columns: table => new
                 {
@@ -54,13 +85,14 @@ namespace HotelApp1.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RoomTypeId = table.Column<int>(type: "int", nullable: false),
                     RoomSize = table.Column<double>(type: "float", nullable: false),
-                    RoomNumber = table.Column<int>(type: "int", nullable: false),
+                    RoomNumber = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR dbo.RoomNumbers"),
                     MaxGuestsPerRoomWithoutExtrabeds = table.Column<int>(type: "int", nullable: false),
                     ExtraBedsAvailable = table.Column<int>(type: "int", nullable: false),
+                    ExtraBedsAdded = table.Column<int>(type: "int", nullable: false),
+                    PricePerSquarefeet = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     PricePerNight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     PriceExtraBeds = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,7 +118,7 @@ namespace HotelApp1.Migrations
                     RoomId = table.Column<int>(type: "int", nullable: false),
                     TimeOfBooking = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    InvoiceID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -96,6 +128,12 @@ namespace HotelApp1.Migrations
                         column: x => x.GuestId,
                         principalTable: "Guests",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bookings_Invoices_InvoiceID",
+                        column: x => x.InvoiceID,
+                        principalTable: "Invoices",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Bookings_Rooms_RoomId",
@@ -111,9 +149,19 @@ namespace HotelApp1.Migrations
                 column: "GuestId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Bookings_InvoiceID",
+                table: "Bookings",
+                column: "InvoiceID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Bookings_RoomId",
                 table: "Bookings",
                 column: "RoomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_GuestId",
+                table: "Invoices",
+                column: "GuestId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rooms_RoomNumber",
@@ -134,13 +182,20 @@ namespace HotelApp1.Migrations
                 name: "Bookings");
 
             migrationBuilder.DropTable(
-                name: "Guests");
+                name: "Invoices");
 
             migrationBuilder.DropTable(
                 name: "Rooms");
 
             migrationBuilder.DropTable(
+                name: "Guests");
+
+            migrationBuilder.DropTable(
                 name: "RoomTypes");
+
+            migrationBuilder.DropSequence(
+                name: "RoomNumbers",
+                schema: "dbo");
         }
     }
 }

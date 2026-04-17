@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Storage.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -42,11 +43,9 @@ namespace HotelApp1.Models
 
         [Required]
         public bool IsActive { get; set; } = true;
-
-        public bool IsDeleted { get; set; } = false;
-
         
         public List <Booking> Bookings { get; set; } = new List<Booking>();   
 
+        public List <Invoice> Invoices { get; set; } = new List<Invoice> ();
     }
 }

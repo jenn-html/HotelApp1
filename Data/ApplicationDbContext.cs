@@ -13,6 +13,7 @@ namespace HotelApp1.Data
         public DbSet<Guest> Guests { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RoomType> RoomTypes { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
 
 
         public ApplicationDbContext()

@@ -17,11 +17,11 @@ namespace HotelApp1.Utilities.Menus
 
             string[] options = new[] {
 
-                "All guests",
-                "Active guests",
-                "Checked-in guests today",
-                "Deleted guests",
-                "Go back to guest menu"
+                $"[orchid]ALL GUESTS[/]",
+                $"[orchid]ACTIVE GUESTS[/]",
+                $"[orchid]CHECKED-IN GUESTS[/]",
+                $"[orchid]DELETED GUESTS[/]",
+                $"[yellow]GO BACK TO GUEST MENU[/]"
             };
 
             while (true)
@@ -31,7 +31,7 @@ namespace HotelApp1.Utilities.Menus
 
                 var choice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
-                        .Title("[SeaGreen1]---VIEW GUEST MENU---[/]")
+                        .Title("[orchid]---VIEW GUEST MENU---[/]")
                         .PageSize(5)
                         .AddChoices(options)
                         .WrapAround()

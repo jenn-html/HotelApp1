@@ -8,21 +8,38 @@ namespace HotelApp1.UI.Prompts
     {
         public static string PromptFirstname()
         {
-
             var newFirstName = AnsiConsole.Prompt(
                new TextPrompt<string>("[yellow]First name:[/]")
-                   .Validate(g => g.Length <= 50 && g.Length > 1 ? ValidationResult.Success() : ValidationResult.Error("[red]Minimum 2 character and maximum 50[/]"))
+                   .Validate(g =>
+                   {
+                       if (string.IsNullOrWhiteSpace(g))
+                           return ValidationResult.Error("[red]First name is required[/]");
+                       var trimmed = g.Trim();
+                       return trimmed.Length >= 2 && trimmed.Length <= 50
+                           ? ValidationResult.Success()
+                           : ValidationResult.Error("[red]Minimum 2 characters and maximum 50[/]");
+                   })
            );
-            return newFirstName;
+            return newFirstName.Trim();
         }
+
         public static string PromptLastname()
         {
             var newLastName = AnsiConsole.Prompt(
-            new TextPrompt<string>("[yellow]Last name:[/]")
-            .Validate(g => g.Length <= 50 && g.Length > 1 ? ValidationResult.Success() : ValidationResult.Error("[red]Minimum 2 character and maximum 50[/]"))
+                new TextPrompt<string>("[yellow]Last name:[/]")
+                    .Validate(g =>
+                    {
+                        if (string.IsNullOrWhiteSpace(g))
+                            return ValidationResult.Error("[red]Last name is required[/]");
+                        var trimmed = g.Trim();
+                        return trimmed.Length >= 2 && trimmed.Length <= 50
+                            ? ValidationResult.Success()
+                            : ValidationResult.Error("[red]Minimum 2 characters and maximum 50[/]");
+                    })
             );
-            return newLastName;
+            return newLastName.Trim();
         }
+
         public static string PromptEmail()
         {
             var emailValidator = new EmailAddressAttribute();
@@ -31,24 +48,28 @@ namespace HotelApp1.UI.Prompts
                 new TextPrompt<string>("[yellow]Email:[/]")
                     .Validate(e =>
                     {
-                        if (string.IsNullOrWhiteSpace(e) || e.Length < 2 || e.Length > 100)
-                            return ValidationResult.Error("[red]Email must be between 2 and 100 characters[/]");
+                        if (string.IsNullOrWhiteSpace(e))
+                            return ValidationResult.Error("[red]Email is required[/]");
+                        var trimmed = e.Trim();
+                        if (trimmed.Length < 4 || trimmed.Length > 100)
+                            return ValidationResult.Error("[red]Email must be between 4 and 100 characters[/]");
 
-                        return emailValidator.IsValid(e)
+                        return emailValidator.IsValid(trimmed)
                             ? ValidationResult.Success()
                             : ValidationResult.Error("[red]Invalid email address[/]");
                     })
             );
 
-            return newEmail;
+            return newEmail.Trim();
         }
 
-        public static string PromptPhone()
+        public static string? PromptPhone()
         {
             var phoneValidator = new PhoneAttribute();
 
             var phone = AnsiConsole.Prompt(
                 new TextPrompt<string>("[yellow]Phone (optional):[/]")
+                .AllowEmpty()
                     .Validate(p =>
                     {
                         if (string.IsNullOrWhiteSpace(p))
@@ -65,43 +86,77 @@ namespace HotelApp1.UI.Prompts
                     })
             );
 
-            return string.IsNullOrWhiteSpace(phone) ? null : phone.Trim();
+            var result = string.IsNullOrWhiteSpace(phone) ? null : phone.Trim();
+            return result;
         }
+
         public static string PromptStreet()
         {
-
             var newStreet = AnsiConsole.Prompt(
-    new TextPrompt<string>("[yellow]Street:[/]")
-        .Validate(g => g.Length <= 100 ? ValidationResult.Success() : ValidationResult.Error("[red]Minimum 2 character and maximum 100[/]"))
-);
-            return newStreet;
+                new TextPrompt<string>("[yellow]Street:[/]")
+                    .Validate(g =>
+                    {
+                        if (string.IsNullOrWhiteSpace(g))
+                            return ValidationResult.Error("[red]Street is required[/]");
+                        var trimmed = g.Trim();
+                        return trimmed.Length >= 2 && trimmed.Length <= 100
+                            ? ValidationResult.Success()
+                            : ValidationResult.Error("[red]Minimum 2 characters and maximum 100[/]");
+                    })
+            );
+            return newStreet.Trim();
         }
+
         public static string PromptPostalcode()
         {
             var newPostalcode = AnsiConsole.Prompt(
-   new TextPrompt<string>("[yellow]Postalcode:[/]")
-       .Validate(g => g.Length <= 50 && g.Length > 1 ? ValidationResult.Success() : ValidationResult.Error("[red]Minimum 2 character and maximum 50[/]"))
-);
+                new TextPrompt<string>("[yellow]Postalcode:[/]")
+                    .Validate(g =>
+                    {
+                        if (string.IsNullOrWhiteSpace(g))
+                            return ValidationResult.Error("[red]Postal code is required[/]");
+                        var trimmed = g.Trim();
+                        return trimmed.Length >= 2 && trimmed.Length <= 50
+                            ? ValidationResult.Success()
+                            : ValidationResult.Error("[red]Minimum 2 characters and maximum 50[/]");
+                    })
+            );
 
-            return newPostalcode;
+            return newPostalcode.Trim();
         }
+
         public static string PromptCity()
         {
-
             var newCity = AnsiConsole.Prompt(
-       new TextPrompt<string>("[yellow]City:[/]")
-           .Validate(g => g.Length <= 50 && g.Length > 1 ? ValidationResult.Success() : ValidationResult.Error("[red]Minimum 2 character and maximum 50[/]"))
-    );
-            return newCity;
+                new TextPrompt<string>("[yellow]City:[/]")
+                    .Validate(g =>
+                    {
+                        if (string.IsNullOrWhiteSpace(g))
+                            return ValidationResult.Error("[red]City is required[/]");
+                        var trimmed = g.Trim();
+                        return trimmed.Length >= 2 && trimmed.Length <= 50
+                            ? ValidationResult.Success()
+                            : ValidationResult.Error("[red]Minimum 2 characters and maximum 50[/]");
+                    })
+            );
+            return newCity.Trim();
         }
+
         public static string PromptCountry()
         {
-
             var newCountry = AnsiConsole.Prompt(
-       new TextPrompt<string>("[yellow]Country:[/]")
-           .Validate(g => g.Length <= 50 && g.Length > 1 ? ValidationResult.Success() : ValidationResult.Error("[red]Minimum 2 character and maximum 50[/]"))
-    );
-            return newCountry;
+                new TextPrompt<string>("[yellow]Country:[/]")
+                    .Validate(g =>
+                    {
+                        if (string.IsNullOrWhiteSpace(g))
+                            return ValidationResult.Error("[red]Country is required[/]");
+                        var trimmed = g.Trim();
+                        return trimmed.Length >= 2 && trimmed.Length <= 50
+                            ? ValidationResult.Success()
+                            : ValidationResult.Error("[red]Minimum 2 characters and maximum 50[/]");
+                    })
+            );
+            return newCountry.Trim();
         }
     }
 }

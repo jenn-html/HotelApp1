@@ -20,9 +20,9 @@ namespace HotelApp1.Utilities.Menus
 
             string[] options = new[] {
 
-                "Uppdate guest",
-                "Activete deleted guest",
-                "Go back to guest menu"
+                $"[orchid]UPDATE GUEST[/]",
+                $"[orchid]REACTIVATE DELETED GUEST[/]",
+                $"[yellow]GO BACK TO GUEST MENU[/]"
             };
 
             while (true)
@@ -32,7 +32,7 @@ namespace HotelApp1.Utilities.Menus
 
                 var choice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
-                        .Title("[Plum1]---UPDATE GUEST MENU---[/]")
+                        .Title("[orchid]---UPDATE GUEST MENU---[/]")
                         .PageSize(3)
                         .AddChoices(options)
                         .WrapAround()
@@ -53,7 +53,7 @@ namespace HotelApp1.Utilities.Menus
                     case 2:
                         return;
                     default:
-                        Console.WriteLine("Invalid option.");
+                        AnsiConsole.MarkupLine($"[red]Invalid option.[/]");
                         break;
                 }
                 Console.WriteLine("Press any key to go back to the menu...");

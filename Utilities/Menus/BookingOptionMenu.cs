@@ -13,13 +13,15 @@ namespace HotelApp1.Utilities.Menus
         private readonly BookingController _bookingController;
         private readonly GuestController _guestController;
         private readonly ApplicationDbContext _dbContext;
+        private readonly InvoiceController _invoiceController;
         private readonly RoomController _roomController;
-        public BookingOptionMenu(BookingController bookingController, ApplicationDbContext dbContext, GuestController guestController, RoomController roomController )
+        public BookingOptionMenu(BookingController bookingController, ApplicationDbContext dbContext, GuestController guestController, RoomController roomController, InvoiceController invoiceController   )
         {
             _dbContext = dbContext;
             _bookingController = bookingController;
             _guestController = guestController;
             _roomController = roomController;
+            _invoiceController = invoiceController;
         }
         public void ShowMenu()
         {
@@ -27,12 +29,12 @@ namespace HotelApp1.Utilities.Menus
             var bookingViewMenu = new BookingViewMenu(_bookingController);
             var id = 0;
             string[] options = new[] {
-           
-                "View bookings",
-                "Add a new booking",
-                "Update a booking",
-                "Delete a booking",
-                "Go back to Main"
+
+                $"[LightGreen_1]VIEW BOOKINGS[/]",
+                $"[LightGreen_1]ADD A NEW BOOKING[/]",
+                $"[LightGreen_1]UPDATE A BOOKING[/]",
+                $"[LightGreen_1]DELETE A BOOKING[/]",
+                $"[yellow]GO BACK TO MAIN[/]"
             };
           
             while (true)
@@ -71,7 +73,7 @@ namespace HotelApp1.Utilities.Menus
                     case 4: 
                         return;
                     default:
-                        Console.WriteLine("Invalid option.");
+                        AnsiConsole.MarkupLine($"[red]Invalid option.[/]");
                         break;
                 }
                 Console.WriteLine("Press any key to go back to the menu...");

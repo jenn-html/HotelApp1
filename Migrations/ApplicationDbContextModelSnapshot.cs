@@ -42,10 +42,10 @@ namespace HotelApp1.Migrations
                     b.Property<int>("GuestId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                    b.Property<int>("InvoiceID")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<int>("NumberOfGuests")
@@ -60,6 +60,8 @@ namespace HotelApp1.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("GuestId");
+
+                    b.HasIndex("InvoiceID");
 
                     b.HasIndex("RoomId");
 
@@ -96,9 +98,6 @@ namespace HotelApp1.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -122,6 +121,43 @@ namespace HotelApp1.Migrations
                     b.ToTable("Guests");
                 });
 
+            modelBuilder.Entity("HotelApp1.Models.Invoice", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.PrimitiveCollection<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("GuestId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPayed")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastDayToPay")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("GuestId");
+
+                    b.ToTable("Invoices");
+                });
+
             modelBuilder.Entity("HotelApp1.Models.Room", b =>
                 {
                     b.Property<int>("Id")
@@ -130,13 +166,13 @@ namespace HotelApp1.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ExtraBedsAdded")
+                        .HasColumnType("int");
+
                     b.Property<int>("ExtraBedsAvailable")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<int>("MaxGuestsPerRoomWithoutExtrabeds")
@@ -146,6 +182,9 @@ namespace HotelApp1.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("PricePerNight")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PricePerSquarefeet")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("RoomNumber")
@@ -195,6 +234,12 @@ namespace HotelApp1.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("HotelApp1.Models.Invoice", "Invoice")
+                        .WithMany()
+                        .HasForeignKey("InvoiceID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("HotelApp1.Models.Room", "Room")
                         .WithMany()
                         .HasForeignKey("RoomId")
@@ -203,7 +248,16 @@ namespace HotelApp1.Migrations
 
                     b.Navigation("Guest");
 
+                    b.Navigation("Invoice");
+
                     b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("HotelApp1.Models.Invoice", b =>
+                {
+                    b.HasOne("HotelApp1.Models.Guest", null)
+                        .WithMany("Invoices")
+                        .HasForeignKey("GuestId");
                 });
 
             modelBuilder.Entity("HotelApp1.Models.Room", b =>
@@ -220,6 +274,8 @@ namespace HotelApp1.Migrations
             modelBuilder.Entity("HotelApp1.Models.Guest", b =>
                 {
                     b.Navigation("Bookings");
+
+                    b.Navigation("Invoices");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,13 +1,14 @@
 ﻿using HotelApp1.Data;
 using HotelApp1.Models;
 using Microsoft.EntityFrameworkCore;
+using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace HotelApp1.Repositories
 {
-    public class RoomRepository
+    public class RoomRepository : IRoomRepository
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -15,39 +16,18 @@ namespace HotelApp1.Repositories
         {
             _dbContext = context;
         }
-        public void Add(Room room)
+
+        public void Delete(Room room)
         {
-            _dbContext.Rooms.Add(room);
-            _dbContext.SaveChanges();
+            room.IsActive = false;
+               _dbContext.SaveChanges();    
         }
-
-        public void Delete(int id)
+        public List<Booking> GetRoomThatHasBookings(Room room)
         {
-            var existingRoom = GetById(id);
-            
-            if (!( existingRoom == null)) 
-            {
-                var hasBookings = _dbContext.Bookings.Where(b => b.IsActive == true)
-                .Where(b => b.Room.Id == existingRoom.Id)
+            return
+                _dbContext.Bookings.Where(b => b.IsActive == true)
+                .Where(b => b.Room.Id == room.Id)
                 .Where(b => b.CheckOut >= DateTime.Now).ToList();
-
-                if (!(hasBookings == null))
-                {
-                    Console.WriteLine("Can't delete a room that have bookings!");
-                    Console.WriteLine("Current bookings:");
-                    foreach (var booking in hasBookings)
-                    {
-                        Console.WriteLine(booking);
-                        Console.WriteLine("-------------------");
-                    }
-                }
-                else
-                {
-                    existingRoom.IsActive = false;
-                    Console.WriteLine($"Room {existingRoom.RoomNumber} deleted");
-                    _dbContext.SaveChanges();
-                }
-            }
         }
 
         public List<Room> GetAllRooms()
@@ -63,10 +43,29 @@ namespace HotelApp1.Repositories
             return _dbContext.Rooms.FirstOrDefault(b => b.Id == id);
         }
 
-        public void Update(Room room)
+        public void Update(Room room, Room roomToUpdate)
         {
-            _dbContext.Rooms.Update(room);
+            roomToUpdate.PricePerNight = room.PricePerNight;
+            roomToUpdate.RoomSize = room.RoomSize;
+            roomToUpdate.PricePerSquarefeet = room.PricePerSquarefeet;
+            roomToUpdate.RoomType = room.RoomType;
+            roomToUpdate.ExtraBedsAvailable = room.ExtraBedsAvailable;
+            roomToUpdate.PriceExtraBeds = room.PriceExtraBeds;
+            roomToUpdate.MaxGuestsPerRoomWithoutExtrabeds = room.MaxGuestsPerRoomWithoutExtrabeds;
+            roomToUpdate.ExtraBedsAdded = room.ExtraBedsAdded;
+            roomToUpdate.IsActive = room.IsActive;
             _dbContext.SaveChanges();
+        }
+
+        public void AddRoom(Room room)
+        {
+            _dbContext.Rooms.Add(room);
+            _dbContext.SaveChanges();
+        }
+
+        public RoomType GetRoomtypeById(int id)
+        {
+            return _dbContext.RoomTypes.FirstOrDefault(rt => rt.Id == id);      
         }
     }
 }

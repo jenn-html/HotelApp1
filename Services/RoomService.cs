@@ -1,5 +1,6 @@
 ﻿using HotelApp1.Models;
 using HotelApp1.Repositories;
+using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,14 +14,14 @@ namespace HotelApp1.Services
         {
             _roomRepository = roomRepository;
         }
-        public void Create()
+        public void AddNewRoom(Room room)
         {
-            throw new NotImplementedException();
+            _roomRepository.AddRoom(room);
         }
 
-        public void Delete()
+        public void DeleteRoom(Room room)
         {
-            throw new NotImplementedException();
+            _roomRepository.Delete(room);
         }
 
         public List<Room> GetAllRooms()
@@ -28,14 +29,24 @@ namespace HotelApp1.Services
             return _roomRepository.GetAllRooms();
         }
 
-        public void Update()
+        public void Update(Room room, Room roomToUpdate)
         {
-            throw new NotImplementedException();
+            _roomRepository.Update(room, roomToUpdate);
         }
 
         public Room GetById(int roomId)
         {
             return _roomRepository.GetById(roomId);
+        }
+
+        public RoomType GetRoomtypeById(int id)
+        {
+            return _roomRepository.GetRoomtypeById(id);
+        }
+
+        public List<Booking> GetRoomThatHasBookings(Room room)
+        {
+            return _roomRepository.GetRoomThatHasBookings(room);
         }
     }
 }

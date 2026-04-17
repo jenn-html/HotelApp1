@@ -8,9 +8,10 @@ namespace HotelApp1.Repositories
     public interface IRoomRepository
     {
         List<Room> GetAllRooms();
-        Booking? GetByDate(DateTime date);
-        void Add(Room room);
-        void Update(Room room);
-        void Delete(int id);
+        public Room GetById(int id);
+        void AddRoom(Room room);
+        void Update(Room room, Room room2);
+        void Delete(Room room);
+        public RoomType GetRoomtypeById(int id);
     }
 }

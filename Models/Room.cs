@@ -27,14 +27,14 @@ namespace HotelApp1.Models
         [Range(0, 2)]
         public int ExtraBedsAvailable { get; set; } = 0;
 
+        public int ExtraBedsAdded { get; set; } = 0;
+        public required decimal PricePerSquarefeet { get; set; } = 100;
+
         public required decimal PricePerNight { get; set; } 
 
         public decimal PriceExtraBeds { get; set; } = 200;
 
         [Required]
         public bool IsActive { get; set; } = true;
-
-        public bool IsDeleted { get; set; } = false;
-
     }
 }

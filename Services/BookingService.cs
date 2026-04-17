@@ -39,7 +39,7 @@ namespace HotelApp1.Services
             _bookingRepository.Add(booking);
         }
 
-        public List<Booking> GetAllActicveBookings()
+        public List<Booking> GetAllActiveBookings()
         {
             return _bookingRepository.GetAllActiveBookings();
         }
@@ -62,6 +62,11 @@ namespace HotelApp1.Services
         public List<Room> GetAvailibleRoomsToUpdateBooking(DateTime checkin, DateTime checkout, int guests, int bookingid)
         {
             return _bookingRepository.GetAvailableRoomsToUpdateBooking(checkin,checkout,guests, bookingid);
+        }
+
+        public void DeleteBookingNotPayedInTime(List<Booking> allBookings)
+        {
+            _bookingRepository.DeleteBookingNotPayedInTime(allBookings);
         }
     }
 }

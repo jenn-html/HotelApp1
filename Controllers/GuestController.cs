@@ -17,6 +17,7 @@ namespace HotelApp1.Controllers
         }
         public void AddNewGuest()
         {
+            AnsiConsole.MarkupLine("[plum1]--ADD NEW GUEST--[/]");
             var FirstName = GuestPrompts.PromptFirstname();
             var LastName = GuestPrompts.PromptLastname();
             var Street = GuestPrompts.PromptStreet();
@@ -38,7 +39,6 @@ namespace HotelApp1.Controllers
                 Country = Country,
                 Email = Email,
                 Phone = Phone,
-                IsDeleted = IsDeleted,
                 IsActive = IsActive,
             };
             _guestService.AddNewGuest(newGuest);
@@ -73,22 +73,20 @@ namespace HotelApp1.Controllers
             AnsiConsole.WriteLine("Enter ID of guest to activate");
             try
             {
-                var id = Convert.ToInt32(Console.ReadLine());
+               var id = BookingPrompts.PromptEnterId();
                 var guestToAdd = GetById(id);
                 if (guestToAdd == null)
                 {
                     Console.WriteLine($"Guest with id {id} not found");
                     return;
                 }
-                if (guestToAdd.IsDeleted == true)
+                if (guestToAdd.IsActive == false)
                 {
                     _guestService.AddDeletedGuest(guestToAdd);
-                    //guestToAdd.IsDeleted = false;
-                    //guestToAdd.IsActive = true;
                     AnsiConsole.WriteLine($"{guestToAdd.FirstName + " " + guestToAdd.LastName} successfully activated!");
                     return;
                 }
-                if (guestToAdd.IsDeleted == false) 
+                if (guestToAdd.IsActive == true) 
                 {
                     Console.WriteLine($"Guest with id {id} is already active");
                 }
@@ -101,20 +99,16 @@ namespace HotelApp1.Controllers
         public void UpdateGuest()
         {
             GetAllActiveGuests();
-            AnsiConsole.WriteLine("Enter ID of Guest to update or BACK to go back");
-            AnsiConsole.WriteLine("---------------------------");
+            AnsiConsole.WriteLine("Enter ID of Guest to update");
             try
             {
-                var inputId = Console.ReadLine();
-                if (inputId == "back" || inputId == "BACK")
-                {
-                    return;
-                }
+                var inputId = BookingPrompts.PromptEnterId();
+               
                 var id = Convert.ToInt32(inputId);
                 var existingGuest = _guestService.GetById(id);
                 if (existingGuest == null)
                 {
-                    Console.WriteLine("Guest not found");
+                    AnsiConsole.MarkupLine($"[red]Guest not found[/]");
                     return;
                 }
                 else
@@ -141,10 +135,10 @@ namespace HotelApp1.Controllers
                         Country = newCountry,
                         Email = newEmail,
                         Phone = newPhone,
-                        IsDeleted = newIsDeleted,
                         IsActive = newIsActive,
                     };
                     _guestService.UpdateGuest(existingGuest, updatedGuest);
+                    AnsiConsole.MarkupLine($"[green]Guest updated![/]");
                 }
             }
 
@@ -161,8 +155,30 @@ namespace HotelApp1.Controllers
             {
                 GetAllActiveGuests();
                 AnsiConsole.WriteLine("Enter ID of guest to delete");
-                var guestToDelete = Convert.ToInt32(Console.ReadLine());
-                _guestService.Delete(guestToDelete);
+                try
+                {
+                    var guestToDelete = BookingPrompts.PromptEnterId();
+                    var existingGuest = GetById(guestToDelete);
+                    if (existingGuest == null)
+                    {
+                        Console.WriteLine($"Can't find guest with id :{guestToDelete}");
+                        return;
+                    }
+
+                    var hasActiveBooking = _guestService.GetActiveBookingsByGuestId(guestToDelete);
+                    if (hasActiveBooking.Any())
+                    {
+                        Console.WriteLine("You can only delete a guest that don't have an active booking.");
+                        return;
+                    }
+
+                    _guestService.Delete(existingGuest);
+                    AnsiConsole.MarkupLine($"[green]Guest deleted![/]");
+                }
+                catch
+                {
+                    AnsiConsole.MarkupLine($"[red]Not able to delete guest[/]");
+                }
             }
         }
         public Guest GetById(int id)
@@ -174,28 +190,62 @@ namespace HotelApp1.Controllers
         {
             var allGuests = _guestService.GetAllGuests();
             AnsiConsole.MarkupLine("[plum1]--LIST OF ALL GUESTS--[/]");
-            ShowAllGuests(allGuests);
+            if (allGuests.Any())
+            {
+                ShowAllGuests(allGuests);
+            }
+            else
+            {
+                AnsiConsole.MarkupLine($"[red]No guests found[/]");
+                return;
+            }
         }
 
         public void GetAllActiveGuests()
         {
             var allActiveguests = _guestService.GetAllActiveGuests();
             AnsiConsole.MarkupLine("[plum1]--LIST OF ALL ACTIVE GUESTS--[/]");
-            ShowAllGuests(allActiveguests);
+            if (allActiveguests.Any())
+            {            
+                ShowAllGuests(allActiveguests);
+            }
+            else 
+            {
+                AnsiConsole.MarkupLine($"[red]No guests found[/]");
+                return;
+            }
+
         }
 
         public void GetAllGuestsToday()
         {
             var guestsToday = _guestService.GetAllGuestsToday(); 
             AnsiConsole.MarkupLine("[plum1]--LIST OF ALL GUESTS CHECKED-IN TODAY--[/]");
-            ShowAllGuests(guestsToday);
+            if (guestsToday.Any())
+            {ShowAllGuests(guestsToday);
+                
+            }
+            else
+            {
+            AnsiConsole.MarkupLine($"[red]No guests found[/]");
+                return;
+            }
         }
 
         public void GetAllDeletedGuests()
         {
             var deletedGuests = _guestService.GetAllDeletedGuests();
             AnsiConsole.MarkupLine("[plum1]--LIST OF ALL DELETED GUESTS--[/]");
-            ShowAllGuests(deletedGuests);
+            if (deletedGuests.Any())
+            {
+                ShowAllGuests(deletedGuests);
+
+            }
+            else
+            {
+                AnsiConsole.MarkupLine($"[red]No guests found[/]");
+                return;
+            }
         }
     }
 }

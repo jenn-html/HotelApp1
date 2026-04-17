@@ -15,7 +15,6 @@ namespace HotelApp1.Repositories
         }
         public void Add(Booking booking)
         {
-
             _dbContext.Bookings.Add(booking);
             _dbContext.SaveChanges();
         }
@@ -25,17 +24,18 @@ namespace HotelApp1.Repositories
             var existingBooking = GetBookingById(id);
             if (existingBooking == null)
             {
+                Console.Clear();
                 Console.WriteLine($"Can't find booking with id :{id}");
                 return;
             }
             if (existingBooking.CheckIn <= DateTime.Today )
             {
+                Console.Clear();
                 Console.WriteLine("You can only delete a booking that haven't already started.");
                 return;
             }
             if (!(existingBooking == null && existingBooking.CheckIn <= DateTime.Today))
             {
-                existingBooking.IsDeleted = true;
                 existingBooking.IsActive = false;
                 _dbContext.SaveChanges();
             }
@@ -45,6 +45,7 @@ namespace HotelApp1.Repositories
         {
             return _dbContext.Bookings
                 .Include(b => b.Guest)
+                .Include(b => b.Invoice)
                 .Include(b => b.Room)
                     .ThenInclude(r => r.RoomType)
                     .OrderBy(b => b.CheckIn)
@@ -63,7 +64,7 @@ namespace HotelApp1.Repositories
             bookingToUpdate.NumberOfGuests  = booking.NumberOfGuests;
             bookingToUpdate.Room = booking.Room;
             bookingToUpdate.IsActive = booking.IsActive;
-            bookingToUpdate.IsDeleted = booking.IsDeleted;
+            bookingToUpdate.Invoice = booking.Invoice;
             _dbContext.SaveChanges();
         }
 
@@ -71,9 +72,10 @@ namespace HotelApp1.Repositories
         {
             return _dbContext.Bookings
                .Include(b => b.Guest)
+               .Include(b => b.Invoice)
                .Include(b => b.Room)
                    .ThenInclude(r => r.RoomType)
-                   .Where(b => b.IsDeleted == false)
+                   .Where(b => b.IsActive == true)
                    .OrderBy(b => b.CheckIn)
                .ToList();
         }
@@ -82,9 +84,10 @@ namespace HotelApp1.Repositories
         {
             return _dbContext.Bookings
             .Include(b => b.Guest)
+            .Include (b => b.Invoice)
             .Include(b => b.Room)
                 .ThenInclude(r => r.RoomType)
-            .Where(b => b.IsDeleted == true)
+            .Where(b => b.IsActive == false)
             .OrderBy(b => b.CheckIn)
             .ToList();
         }
@@ -93,9 +96,10 @@ namespace HotelApp1.Repositories
         {
             return _dbContext.Bookings
             .Include(b => b.Guest)
+            .Include(b => b.Invoice)
             .Include(b => b.Room)
                 .ThenInclude(r => r.RoomType)
-            .Where(b => b.CheckIn >= DateTime.Today)
+            .Where(b => b.CheckIn > DateTime.Today && b.IsActive == true)
             .OrderBy (b => b.CheckIn)
             .ToList();
         }
@@ -139,6 +143,19 @@ namespace HotelApp1.Repositories
             .Select(b => b.Room.Id)
             .Distinct()
             .ToList();
+        }
+
+        public void DeleteBookingNotPayedInTime(List<Booking> allBookings)
+        {
+            foreach (var booking in allBookings)
+            {
+                if (booking.Invoice.LastDayToPay < DateTime.Now)
+                {
+                booking.IsActive = false;
+                booking.Invoice.IsActive = false;
+                }
+
+            }
         }
     }
 }

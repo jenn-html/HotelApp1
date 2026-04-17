@@ -12,27 +12,31 @@ namespace HotelApp1.Utilities.Menus
         private readonly BookingController _bookingController;
         private readonly GuestController _guestController;
         private readonly RoomController _roomController;
+        private readonly InvoiceController _invoiceController;
         private readonly ApplicationDbContext _context;
-        public MainMenu(BookingController bookingController, GuestController guestController, ApplicationDbContext context, RoomController roomController) 
+        public MainMenu(BookingController bookingController, GuestController guestController, ApplicationDbContext context, RoomController roomController, InvoiceController invoiceController) 
         {
             _context = context;
             _bookingController = bookingController;
             _guestController = guestController;
             _roomController = roomController;
+            _invoiceController = invoiceController;
         }
 
         public void ShowMenu()
         {
 
-            var booking = new BookingOptionMenu(_bookingController, _context, _guestController, _roomController);
+            var booking = new BookingOptionMenu(_bookingController, _context, _guestController, _roomController, _invoiceController);
             var guest = new GuestOptionMenu(_guestController);
             var room = new RoomOptionMenu(_roomController);
+            var invoice = new InvoiceOptionMenu(_invoiceController);
 
             string[] options = new[] {
-                "BOOKING MENU",
-                "GUEST MENU",
-                "ROOM MENU",
-                "EXIT"
+                "[DeepPink2]BOOKING MENU[/]",
+                "[DeepPink2]GUEST MENU[/]",
+                "[DeepPink2]ROOM MENU[/]",
+                "[DeepPink2]INVOICE MENU[/]",
+                "[DeepPink2]EXIT[/]"
             };
             
             while (true)
@@ -44,8 +48,8 @@ namespace HotelApp1.Utilities.Menus
                 // Use Spectre.Console SelectionPrompt for keyboard navigation + Enter selection
                 var choice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
-                        .Title("[DeepSkyBlue2]---HOTEL BOOKING SYSTEM---[/]")
-                        .PageSize(4)
+                        .Title("[DeepPink2]---HOTEL BOOKING SYSTEM---[/]")
+                        .PageSize(5)
                         .AddChoices(options)
                         .WrapAround()
                 );
@@ -64,15 +68,18 @@ namespace HotelApp1.Utilities.Menus
                         
                         break;
                     case 2:
-                        room.ShowMenu();
+                        room.ShowMenu(_bookingController);
                         
                         break;
                     case 3:
-                        Console.WriteLine("Exiting...");
+                            invoice.ShowMenu();
+                        break;
+                    case 4:
+                        AnsiConsole.MarkupLine($"[green]Exiting...[/]");
                         Environment.Exit(0);
                         break;
                     default:
-                        Console.WriteLine("Invalid option.");
+                        AnsiConsole.MarkupLine($"[red]Invalid option.[/]");
                         break;
                 }
 

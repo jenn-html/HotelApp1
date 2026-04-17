@@ -18,9 +18,9 @@ namespace HotelApp1.Services
             _guestRepository.Add(guest);
         }
 
-        public void Delete(int id)
+        public void Delete(Guest guest)
         {
-            _guestRepository.DeleteById(id);
+            _guestRepository.DeleteGuest(guest);
         }
 
         public List<Guest> GetAllGuests()
@@ -60,6 +60,11 @@ namespace HotelApp1.Services
         public void UpdateGuest(Guest existingGuest, Guest updatedGuest)
         {
            _guestRepository.Update(existingGuest, updatedGuest);
+        }
+
+        public List<Booking> GetActiveBookingsByGuestId(int guestToDelete)
+        {
+            return _guestRepository.GetActiveBookingsByGuestId(guestToDelete);
         }
     }
 }

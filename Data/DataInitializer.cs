@@ -10,17 +10,23 @@ namespace HotelApp1.Data
     {
         public static void Initialize(ApplicationDbContext dbContext)
         {
+            decimal pricePerSquarefeet = 120;
+            var roomSize1 = 10;
+            var roomSize2 = 20;
+            var roomSize3 = 35;
+            var roomSize4 = 40;
+            var roomSize5 = 12;
             var roomType1 = new RoomType { Type = "Single room" };
             var roomType2 = new RoomType { Type = "Double room" };
-            var room1 = new Room { RoomSize = 10, RoomType = roomType1, ExtraBedsAvailable = 0, MaxGuestsPerRoomWithoutExtrabeds = 1 , PricePerNight = 1200};
-            var room2 = new Room { RoomSize = 10, RoomType = roomType1, ExtraBedsAvailable = 0, MaxGuestsPerRoomWithoutExtrabeds = 1 , PricePerNight = 1200};
-            var room3 = new Room { RoomSize = 20, RoomType = roomType2, ExtraBedsAvailable = 1, MaxGuestsPerRoomWithoutExtrabeds = 2 , PricePerNight = 2400};
-            var room4 = new Room { RoomSize = 20, RoomType = roomType2, ExtraBedsAvailable = 1, MaxGuestsPerRoomWithoutExtrabeds = 2 , PricePerNight = 2400};
-            var room5 = new Room { RoomSize = 35, RoomType = roomType2, ExtraBedsAvailable = 2, MaxGuestsPerRoomWithoutExtrabeds = 2 , PricePerNight = 4200};
-            var room6 = new Room { RoomSize = 35, RoomType = roomType2, ExtraBedsAvailable = 2, MaxGuestsPerRoomWithoutExtrabeds = 2 , PricePerNight = 4200};
-            var room7 = new Room { RoomSize = 40, RoomType = roomType2, ExtraBedsAvailable = 2, MaxGuestsPerRoomWithoutExtrabeds = 2 , PricePerNight = 4800};
-            var room8 = new Room { RoomSize = 12.5, RoomType = roomType1, ExtraBedsAvailable = 0, MaxGuestsPerRoomWithoutExtrabeds = 1 ,PricePerNight = 1500};
-            var room9 = new Room { RoomSize = 12.5, RoomType = roomType1, ExtraBedsAvailable = 0, MaxGuestsPerRoomWithoutExtrabeds = 1 , PricePerNight = 1500};
+            var room1 = new Room { RoomSize = roomSize1, RoomType = roomType1, ExtraBedsAvailable = 0, MaxGuestsPerRoomWithoutExtrabeds = 1 , PricePerSquarefeet = pricePerSquarefeet, PricePerNight = pricePerSquarefeet * roomSize1};
+            var room2 = new Room { RoomSize = roomSize1, RoomType = roomType1, ExtraBedsAvailable = 0, MaxGuestsPerRoomWithoutExtrabeds = 1 , PricePerSquarefeet = pricePerSquarefeet,PricePerNight = pricePerSquarefeet * roomSize1};
+            var room3 = new Room { RoomSize = roomSize2, RoomType = roomType2, ExtraBedsAvailable = 1, MaxGuestsPerRoomWithoutExtrabeds = 2 , PricePerSquarefeet = pricePerSquarefeet,PricePerNight = pricePerSquarefeet * roomSize2};
+            var room4 = new Room { RoomSize = roomSize2, RoomType = roomType2, ExtraBedsAvailable = 1, MaxGuestsPerRoomWithoutExtrabeds = 2 , PricePerSquarefeet = pricePerSquarefeet, PricePerNight = pricePerSquarefeet * roomSize2};
+            var room5 = new Room { RoomSize = roomSize3, RoomType = roomType2, ExtraBedsAvailable = 2, MaxGuestsPerRoomWithoutExtrabeds = 2 , PricePerSquarefeet = pricePerSquarefeet, PricePerNight = pricePerSquarefeet * roomSize3};
+            var room6 = new Room { RoomSize = roomSize3, RoomType = roomType2, ExtraBedsAvailable = 2, MaxGuestsPerRoomWithoutExtrabeds = 2 , PricePerSquarefeet = pricePerSquarefeet, PricePerNight = pricePerSquarefeet * roomSize3};
+            var room7 = new Room { RoomSize = roomSize4, RoomType = roomType2, ExtraBedsAvailable = 2, MaxGuestsPerRoomWithoutExtrabeds = 2 , PricePerSquarefeet = pricePerSquarefeet, PricePerNight = pricePerSquarefeet * roomSize4};
+            var room8 = new Room { RoomSize = roomSize5, RoomType = roomType1, ExtraBedsAvailable = 0, MaxGuestsPerRoomWithoutExtrabeds = 1 , PricePerSquarefeet = pricePerSquarefeet, PricePerNight = pricePerSquarefeet * roomSize5};
+            var room9 = new Room { RoomSize = roomSize5, RoomType = roomType1, ExtraBedsAvailable = 0, MaxGuestsPerRoomWithoutExtrabeds = 1 , PricePerSquarefeet = pricePerSquarefeet, PricePerNight = pricePerSquarefeet * roomSize5};
 
             var guest1 = new Guest { FirstName = "Alfons", LastName = "Åberg", Email = "jag_ska_bara@nu-snart.se", Street = "Höghuset vid Parken v3", PostalCode = "12345", City = "Göteborg", Country = "Sweden" , Phone = "070-0000000"};
             var guest2 = new Guest { FirstName = "Buzz", LastName = "Lightyear", Email = "to_infinity_and_beyond@starcommand.gov", Street = "Gamma-kvadranten, Sektor 4", PostalCode = "01-0000", City = "Stjärnbas 1", Country = "Rymden" };
@@ -47,16 +53,7 @@ namespace HotelApp1.Data
                 guest1, guest2, guest3, guest4, guest5, guest6, guest7, guest8, guest9
             });
             dbContext.SaveChanges();
-            dbContext.Bookings.AddRange(new List<Booking> 
-            {
-               new Booking { Guest = guest1, Room = room3, NumberOfGuests = 2, CheckIn = DateTime.Today.AddDays(-1), CheckOut = DateTime.Today.AddDays(2)},
-              new Booking { Guest = guest8, Room = room7, NumberOfGuests = 3, CheckIn = DateTime.Today.AddDays(2), CheckOut = DateTime.Today.AddDays(3)},
-              new Booking { Guest = guest9, Room = room3, NumberOfGuests = 2, CheckIn = DateTime.Today.AddDays(3), CheckOut = DateTime.Today.AddDays(4)},
-              new Booking { Guest = guest6, Room = room5, NumberOfGuests = 4, CheckIn = DateTime.Today.AddDays(7), CheckOut = DateTime.Today.AddDays(15)},
-              new Booking { Guest = guest7, Room = room6, NumberOfGuests = 4, CheckIn = DateTime.Today.AddDays(13), CheckOut = DateTime.Today.AddDays(26)},
-              new Booking { Guest = guest4, Room = room2, NumberOfGuests = 1, CheckIn = DateTime.Today.AddDays(100), CheckOut = DateTime.Today.AddDays(109)}
-            });
-            dbContext.SaveChanges();
+            
         }
     }
 }

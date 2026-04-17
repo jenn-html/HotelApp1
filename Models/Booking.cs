@@ -33,7 +33,6 @@ namespace HotelApp1.Models
         [Required]
         public bool IsActive { get; set; } = true;
 
-        public bool IsDeleted { get; set; } = false;
-
+        public required Invoice Invoice { get; set; }
     }
 }

@@ -34,7 +34,9 @@ namespace HotelApp1
                     DataInitializer.Initialize(dbContext);
                 }
             }
-      
+            var invoiceRepository = new InvoiceRepository(context);
+            var invoiceService = new InvoiceService(invoiceRepository);
+            var invoiceController = new InvoiceController(invoiceService);
             var guestRepository = new GuestRepository(context);
             var guestService = new GuestService(guestRepository);
             var guestController = new GuestController(guestService);
@@ -43,9 +45,9 @@ namespace HotelApp1
             var roomController = new RoomController(roomService);
             var bookingRepository = new BookingRepository(context);
             var bookingService = new BookingService(bookingRepository);
-            var bookingController = new BookingController(bookingService, guestController, roomController);
+            var bookingController = new BookingController(bookingService, guestController, roomController, invoiceController);
             Console.WriteLine(": \"\r\n _____                                                                                       _____ \r\n( ___ )                                                                                     ( ___ )\r\n |   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|   | \r\n |   |                                                                                       |   | \r\n |   |                                                                                       |   | \r\n |   | ██╗  ██╗ ██████╗ ████████╗███████╗██╗              ██╗███████╗███╗   ██╗███╗   ██╗██╗ |   | \r\n |   | ██║  ██║██╔═══██╗╚══██╔══╝██╔════╝██║              ██║██╔════╝████╗  ██║████╗  ██║██║ |   | \r\n |   | ███████║██║   ██║   ██║   █████╗  ██║              ██║█████╗  ██╔██╗ ██║██╔██╗ ██║██║ |   | \r\n |   | ██╔══██║██║   ██║   ██║   ██╔══╝  ██║         ██   ██║██╔══╝  ██║╚██╗██║██║╚██╗██║██║ |   | \r\n |   | ██║  ██║╚██████╔╝   ██║   ███████╗███████╗    ╚█████╔╝███████╗██║ ╚████║██║ ╚████║██║ |   | \r\n |   | ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚══════╝╚══════╝     ╚════╝ ╚══════╝╚═╝  ╚═══╝╚═╝  ╚═══╝╚═╝ |   | \r\n |   |                                                                                       |   | \r\n |   |                                                                                       |   | \r\n |___|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|___| \r\n(_____)                                                                                     (_____)\r\n\"");
-            var mainmenu = new MainMenu(bookingController, guestController, context, roomController);
+            var mainmenu = new MainMenu(bookingController, guestController, context, roomController, invoiceController);
             mainmenu.ShowMenu();
         }
     }

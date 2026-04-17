@@ -18,11 +18,11 @@ namespace HotelApp1.Utilities.Menus
             var guestUpdateMenu = new GuestUpdateMenu(_guestController);
             var guestViewMenu = new GuestViewMenu(_guestController);
             string[] options = new[] {
-                "Show all guests",
-                "Add a new guest",
-                "Update a guest",
-                "Delete a guest",
-                "Go back to Main"
+                $"[orchid]SHOW ALL GUESTS[/]",
+                $"[orchid]ADD A NEW GUEST[/]",
+                $"[orchid]UPDATE A GUEST[/]",
+                $"[orchid]DELETE A GUEST[/]",
+                $"[yellow]GO BACK TO MAIN[/]"
             };
             var displayMenu = true;
             while (displayMenu = true)

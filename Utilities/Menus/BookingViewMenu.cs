@@ -18,14 +18,14 @@ namespace HotelApp1.Utilities.Menus
         }
         public void ShowMenu()
         {
-           
+            _bookingController.DeleteBookingNotPayedInTime();
             string[] options = new[] {
 
-                "All bookings",
-                "Active bookings",
-                "Upcoming bookings",
-                "Deleted bookings",
-                "Go back to Booking menu"
+                $"[LightGreen_1]ALL BOOKINGS[/]",
+                $"[LightGreen_1]ACTIVE BOOKINGS[/]",
+                $"[LightGreen_1]UPCOMING BOOKINGS[/]",
+                $"[LightGreen_1]DELETED BOOKINGS[/]",
+                $"[yellow]GO BACK TO BOOKING MENU[/]"
             };
 
             while (true)
@@ -35,7 +35,7 @@ namespace HotelApp1.Utilities.Menus
                 // Use Spectre.Console SelectionPrompt for keyboard navigation + Enter selection
                 var choice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
-                        .Title("[SeaGreen1]---VIEW BOOKINGS MENU---[/]")
+                        .Title("[LightGreen_1]---VIEW BOOKINGS MENU---[/]")
                         .PageSize(5)
                         .AddChoices(options)
                         .WrapAround()

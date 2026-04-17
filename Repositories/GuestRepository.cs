@@ -17,24 +17,10 @@ namespace HotelApp1.Repositories
             _dbContext.SaveChanges();
         }
 
-        public void DeleteById(int id)
+        public void DeleteGuest(Guest existingGuest)
         {
-            var existingGuest = GetById(id);
-            if (existingGuest == null)
-            {
-                Console.WriteLine($"Can't find guest with id :{id}");
-                return;
-            }
-
-            var hasActiveBooking = GetActiveBookingsByGuestId(id);
-            if (hasActiveBooking.Any())
-            {
-                Console.WriteLine("You can only delete a guest that don't have an active booking.");
-                return;
-            }
-
+            
             existingGuest.IsActive = false;
-            existingGuest.IsDeleted = true;
             _dbContext.SaveChanges();
         }
 
@@ -48,7 +34,8 @@ namespace HotelApp1.Repositories
 
         public Guest GetById(int id)
         {
-            return _dbContext.Guests.FirstOrDefault(g => g.Id == id);
+            return _dbContext.Guests
+                .Where(g => g.IsActive == true).FirstOrDefault(g => g.Id == id);
         }
         public List<Booking> GetActiveBookingsByGuestId(int id)
         {
@@ -57,7 +44,7 @@ namespace HotelApp1.Repositories
            .Include(b => b.Room)
            .Where(b =>
                b.Guest.Id == id
-               && b.IsDeleted == false
+               && b.IsActive == true
                && (b.CheckOut.Date >= DateTime.Today)) 
            .ToList();
         }
@@ -72,7 +59,6 @@ namespace HotelApp1.Repositories
             guest.PostalCode = updatedGuest.PostalCode;
             guest.City = updatedGuest.City;
             guest.Country = updatedGuest.Country;
-            guest.IsDeleted = updatedGuest.IsDeleted;
             guest.IsActive = updatedGuest.IsActive;
             _dbContext.SaveChanges();
         }
@@ -94,7 +80,7 @@ namespace HotelApp1.Repositories
             return _dbContext.Guests
             .Include(g => g.Bookings)
                 .ThenInclude(r => r.Room)
-            .Where(g => g.IsDeleted == true)
+            .Where(g => g.IsActive == false)
             .OrderBy(b => b.FirstName)
             .ToList();
         }
@@ -111,7 +97,6 @@ namespace HotelApp1.Repositories
 
         public void AddDeletedGuest(Guest guestToAdd)
         {
-            guestToAdd.IsDeleted = false;
             guestToAdd.IsActive = true;
             _dbContext.SaveChanges();
         }

@@ -6,22 +6,22 @@ using System.Text;
 
 namespace HotelApp1.Utilities.Menus
 {
-    public class RoomOptionMenu : IMenu
+    public class RoomOptionMenu 
     {
         private readonly RoomController _roomController;
         public RoomOptionMenu(RoomController roomController)
         {
             _roomController = roomController;
         }
-        public void ShowMenu()
+        public void ShowMenu(BookingController bookingController)
         {
 
             string[] options = new[] {
-                "Show all rooms",
-                "Add a new room",
-                "Update a room",
-                "Delete a room",
-                "Go back to Main"
+                $"[MediumPurple3_1]SHOW ALL ROOMS[/]",
+                $"[MediumPurple3_1]ADD A NEW ROOM[/]",
+                $"[MediumPurple3_1]UPDATE A ROOM[/]",
+                $"[MediumPurple3_1]DELETE A ROOM[/]",
+                $"[yellow]GO BACK TO MAIN[/]"
             };
 
             while (true)
@@ -43,24 +43,16 @@ namespace HotelApp1.Utilities.Menus
                 switch (selected)
                 {
                     case 0:
-                        _roomController.ShowAllRooms();
-                        Console.WriteLine("Showing all rooms...");
-                        // TODO: show bookings
+                        _roomController.GetAllRooms();
                         break;
                     case 1:
                         _roomController.AddNewRoom();
-                        Console.WriteLine("Adding a new room...");
-                        // TODO: add booking
                         break;
                     case 2:
-                        _roomController.UpdateRoom();
-                        Console.WriteLine("Updating a room...");
-                        // TODO: update booking
+                        _roomController.UpdateRoom(bookingController);
                         break;
                     case 3:
-                        _roomController.DeleteRoom();
-                        Console.WriteLine("Deleting a room...");
-                        // TODO: delete booking
+                        _roomController.DeleteRoom(bookingController);
                         break;
                     case 4:
                         return;
